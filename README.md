@@ -25,10 +25,10 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 ## Who Can Use
 
-- **Students** seeking to visualize and hear mathematical functions:)  
+- **Students** seeking to visualize and hear mathematical functions :)  
 - **Teachers** demonstrating connections between math, biology, and sound :) 
-- **Researchers** exploring educational tools for STEM instruction:)  
-- **Anyone** interested in interactive, free, open-source educational software:)
+- **Researchers** exploring educational tools for STEM instruction :)  
+- **Anyone** interested in interactive, free, open-source educational software :)
 
 © 2025 Ravka Piroshk. Hosted by GitHub. All rights reserved under MIT License.
 
