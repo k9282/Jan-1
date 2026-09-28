@@ -1,5 +1,6 @@
-# Jan-1: Hear The Math
-*Author: Ale Mustafa*
+# Jan-1: Hear The Math/GPT-4o Experimental Project.
+Idea by Ravka Piroshk - Coding done by (ChatGPT/GPT-4o).
+
 
 ## Purpose
 Jan-1 is an educational web application designed to demonstrate the relationship between mathematical functions, their graphical representation, and corresponding audio tones. It also includes two biology inspired visualizations a leaf pattern and a DNA helix, showing how mathematical equations manifest in natural forms. The goal is to provide a free, accessible tool for students, teachers, and researchers who wish to explore or demonstrate these concepts in classrooms, laboratories, or personal study.
@@ -29,5 +30,5 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 - **Researchers** exploring educational tools for STEM instruction:)  
 - **Anyone** interested in interactive, free, open-source educational software:)
 
-© 2025 Ale Mustafa. Hosted by GitHub. All rights reserved under MIT License.
+© 2025 Ravka Piroshk. Hosted by GitHub. All rights reserved under MIT License.
 
