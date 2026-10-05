@@ -1,5 +1,5 @@
 # Jan-1: Hear The Math/Experimental Project.
-Idea and management by Ravka Pirhavook - Coding done by the free version of (ChatGPT/GPT-4o) May, 2025 - & the new early 2026 version: GPT-5.6 Luna.
+Idea and management by Ravka Pirhavok - Coding done by the free version of (ChatGPT/GPT-4o) May, 2025 - & the new early 2026 version: GPT-5.6 Luna.
 
 Hosting is imported to the free version of the Vercel cloud platform, you can check the web here:
 https://jan-1.vercel.app/ or download the index.html file here: https://github.com/ravka-io/Jan-1/blob/main/index.html
