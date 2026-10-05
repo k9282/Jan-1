@@ -1,5 +1,5 @@
 # Jan-1: Hear The Math/GPT-4o Experimental Project.
-Idea and management by Ravka Piroshk - Coding done by (ChatGPT/GPT-4o).
+Idea and management by Ravka Pirhavook - Coding done by (ChatGPT/GPT-4o).
 
 
 ## Purpose
