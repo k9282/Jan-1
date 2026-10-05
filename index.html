@@ -1,107 +1,283 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Jan-1</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Jan-1 | Hear the Math</title>
+
+  <!-- External libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       background-color: black;
       color: #39ff14;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: "Courier New", Courier, monospace;
       padding: 20px;
+      margin: 0;
     }
-    button, input {
+
+    button,
+    input {
       background-color: black;
       border: 1px solid #39ff14;
       color: #39ff14;
       padding: 8px;
       font-size: 16px;
       margin: 5px 5px 20px 0;
+      font-family: inherit;
     }
-    button:hover {
+
+    input {
+      width: min(100%, 500px);
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus {
       background-color: #39ff14;
       color: black;
+      outline: none;
     }
-    h1, h2 {
+
+    h1,
+    h2 {
       color: #39ff14;
     }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid #39ff14;
+      margin: 25px 0;
+    }
+
+    code {
+      color: #7dff68;
+    }
+
     .plot {
       width: 100%;
-      max-width: 700px;
+      max-width: 900px;
       height: 400px;
       margin-bottom: 20px;
     }
+
     .caption {
-      max-width: 700px;
+      max-width: 900px;
       font-size: 14px;
       line-height: 1.5;
       margin-bottom: 40px;
     }
+
+    .notice {
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .copyright {
+      margin-top: 30px;
+      font-size: 13px;
+    }
   </style>
 </head>
+
 <body>
 
   <h1>Jan-1: Hear the Math</h1>
+
   <p><strong>Created by Ale Mustafa</strong></p>
-  <p><em>"Mathematics is like a music of reason, you just have to hear it!!" by>> Niels Bohr</p></em>. 
-  
-  <p><em><u><br>Please do note that some functions may not be available now. + Please allow sound permissions for a better experience.</em></p></u></br>
+
+  <p>
+    <em>
+      "Mathematics is like the music of reason; you just have to hear it!!"
+      — Niels Bohr
+    </em>
+  </p>
+
+  <p class="notice">
+    <em>
+      Please note that some functions may not be available.
+      Please allow sound permissions for a better experience.
+    </em>
+  </p>
+
   <hr>
 
   <h2>Function Plotter + Sound</h2>
-  <p><strong>Note:</strong> Use parentheses to avoid confusion. For example, use <code>sin(x)</code> not <code>sinx</code>, and <code>(x^2 + 1)</code> not <code>x^2 + 1</code>.</p>
-  <p><strong>Please note that the audio service "might" be only availabe for those functions/equations that contain (tan(x), cos(x), sin(x)). </strong></p>
-  <input id="funcInput" type="text" value="sin(x)" />
-  <button onclick="plotAndPlay()">Plot & Play</button>
-  <button onclick="stopSound()">Stop Sound</button>
+
+  <p>
+    <strong>Note:</strong>
+    Use parentheses to avoid confusion.
+    For example, use <code>sin(x)</code> rather than <code>sinx</code>,
+    and <code>(x^2 + 1)</code> rather than <code>x^2 + 1</code>.
+  </p>
+
+  <p>
+    <strong>Audio note:</strong>
+    Audio is currently available for functions containing
+    <code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code>,
+    <code>x^2</code>, or <code>abs(x)</code>, provided the corresponding
+    sound files exist.
+  </p>
+
+  <label for="funcInput">Function y = </label>
+
+  <input
+    id="funcInput"
+    type="text"
+    value="sin(x)"
+    placeholder="Example: sin(x)"
+    autocomplete="off"
+    spellcheck="false"
+  >
+
+  <br>
+
+  <button type="button" onclick="plotAndPlay()">
+    Plot &amp; Play
+  </button>
+
+  <button type="button" onclick="stopSound()">
+    Stop Sound
+  </button>
+
   <div id="graph" class="plot"></div>
 
-  <h2>Mathematics in Biology/Fig. 1: Leaf Curve</h2>
+  <h2>Mathematics in Biology / Fig. 1: Leaf Curve</h2>
+
   <div id="leafGraph" class="plot"></div>
+
   <div class="caption">
-    This graph uses the polar equation <code>r(θ) = sin(θ) × cos(θ)</code>, plotted as <code>x = r cos(θ)</code> and <code>y = r sin(θ)</code>.
-    The shape resembles a natural leaf lobe, showcasing how polar math functions can model organic forms found in nature like leaves, flowers, and shells.
+    This graph uses the polar equation
+    <code>r(θ) = sin(θ) × cos(θ)</code>,
+    plotted as <code>x = r cos(θ)</code> and
+    <code>y = r sin(θ)</code>.
+    The resulting curve demonstrates how polar equations can produce
+    organic-looking mathematical forms.
   </div>
 
-  <h2>Mathematics in Biology/Fig. 2: DNA Helix</h2>
+  <h2>Mathematics in Biology / Fig. 2: DNA Helix</h2>
+
   <div id="dnaGraph" class="plot"></div>
+
   <div class="caption">
-    This 3D plot shows a single helix using parametric equations:
-    <code>x = sin(t)</code>, <code>y = cos(t)</code>, <code>z = 0.05 × t</code>.
-    It visually resembles a DNA strand. With added detail, this can be extended to a full double helix structure as seen in biology.
+    This 3D plot shows a single helical curve using the parametric equations
+    <code>x = sin(t)</code>,
+    <code>y = cos(t)</code>,
+    and <code>z = 0.05 × t</code>.
+    It visually resembles one strand of a DNA helix.
+    A second phase-shifted strand and connecting base pairs could be added
+    to create a full double-helix model.
   </div>
+
+  <p class="copyright">
+    © 2025 Jan-1. Hosted by GitHub. All rights reserved under the MIT License.
+  </p>
 
   <script>
     let currentAudio = null;
 
+    /**
+     * Plot the user's mathematical expression and play the
+     * corresponding sound, when available.
+     */
     function plotAndPlay() {
-      const expr = document.getElementById('funcInput').value.toLowerCase();
-      const x = [], y = [];
-      for (let i = -10; i <= 10; i += 0.1) {
-        x.push(i);
+      const input = document.getElementById("funcInput");
+      const expr = input.value.trim().toLowerCase();
+
+      if (!expr) {
+        alert("Please enter a mathematical function.");
+        return;
+      }
+
+      const x = [];
+      const y = [];
+
+      // Generate 201 points from -10 to 10.
+      for (let i = 0; i <= 200; i++) {
+        const value = -10 + i * 0.1;
+        x.push(value);
+
         try {
-          y.push(math.evaluate(expr, { x: i }));
-        } catch {
+          const result = math.evaluate(expr, { x: value });
+
+          // Plotly requires real, finite numeric values.
+          if (
+            typeof result === "number" &&
+            Number.isFinite(result)
+          ) {
+            y.push(result);
+          } else {
+            y.push(null);
+          }
+        } catch (error) {
           y.push(null);
         }
       }
 
-      Plotly.newPlot('graph', [{
-        x: x,
-        y: y,
-        mode: 'lines',
-        name: expr
-      }], {
-        title: 'y = ' + expr,
-        plot_bgcolor: 'black',
-        paper_bgcolor: 'black',
-        font: { color: '#39ff14' }
-      });
+      Plotly.newPlot(
+        "graph",
+        [
+          {
+            x: x,
+            y: y,
+            mode: "lines",
+            name: expr,
+            connectgaps: false,
+            line: {
+              width: 2
+            }
+          }
+        ],
+        {
+          title: "y = " + expr,
+          plot_bgcolor: "black",
+          paper_bgcolor: "black",
+          font: {
+            color: "#39ff14"
+          },
+          xaxis: {
+            title: "x",
+            gridcolor: "#1f4d1f",
+            zerolinecolor: "#39ff14"
+          },
+          yaxis: {
+            title: "y",
+            gridcolor: "#1f4d1f",
+            zerolinecolor: "#39ff14"
+          },
+          margin: {
+            l: 60,
+            r: 20,
+            t: 60,
+            b: 60
+          }
+        },
+        {
+          responsive: true
+        }
+      );
 
       playSoundFor(expr);
     }
 
+    /**
+     * Stop currently playing audio.
+     */
     function stopSound() {
       if (currentAudio) {
         currentAudio.pause();
@@ -110,79 +286,223 @@
       }
     }
 
+    /**
+     * Select a sound file based on the mathematical expression.
+     */
+    function getSoundUrl(func) {
+      const normalized = func.replace(/\s+/g, "").toLowerCase();
+
+      // More specific functions first.
+      if (normalized.includes("tan(")) {
+        return "sounds/tan.mp3";
+      }
+
+      if (normalized.includes("cos(")) {
+        return "sounds/cos.mp3";
+      }
+
+      if (normalized.includes("sin(")) {
+        return "sounds/sin.mp3";
+      }
+
+      if (
+        normalized.includes("x^2") ||
+        normalized.includes("x**2")
+      ) {
+        return "sounds/square.mp3";
+      }
+
+      if (
+        normalized.includes("abs(") ||
+        normalized.includes("|x|")
+      ) {
+        return "sounds/abs.mp3";
+      }
+
+      return "sounds/default.mp3";
+    }
+
+    /**
+     * Play the matching audio file.
+     */
     function playSoundFor(func) {
-      stopSound(); // stop previous
-      let url = 'sounds/default.mp3';
+      stopSound();
 
-      if (func.includes('sin')) url = 'sounds/sin.mp3';
-      else if (func.includes('cos')) url = 'sounds/cos.mp3';
-      else if (func.includes('tan')) url = 'sounds/tan.mp3';
-      else if (func.includes('^2')) url = 'sounds/square.mp3';
-      else if (func.includes('abs') || func.includes('|x|')) url = 'sounds/abs.mp3';
+      const url = getSoundUrl(func);
+      const audio = new Audio(url);
 
-      currentAudio = new Audio(url);
-      currentAudio.play().catch(() => {
-        alert("Browser blocked autoplay. Click again or allow sound.");
-      });
-    }
+      audio.preload = "auto";
+      currentAudio = audio;
 
-    function plotLeaf() {
-      const t = [], x = [], y = [];
-      for (let i = 0; i <= Math.PI * 2; i += 0.01) {
-        const r = Math.sin(i) * Math.cos(i);
-        x.push(r * Math.cos(i));
-        y.push(r * Math.sin(i));
-      }
-
-      Plotly.newPlot('leafGraph', [{
-        x: x,
-        y: y,
-        mode: 'lines',
-        name: 'Leaf Equation'
-      }], {
-        title: 'r(θ) = sin(θ) × cos(θ)',
-        plot_bgcolor: 'black',
-        paper_bgcolor: 'black',
-        font: { color: '#39ff14' }
-      });
-    }
-
-    function plotDNA() {
-      const t = [], x = [], y = [], z = [];
-      for (let i = 0; i <= 20 * Math.PI; i += 0.1) {
-        x.push(Math.sin(i));
-        y.push(Math.cos(i));
-        z.push(0.05 * i);
-      }
-
-      Plotly.newPlot('dnaGraph', [{
-        type: 'scatter3d',
-        mode: 'lines',
-        x: x,
-        y: y,
-        z: z,
-        line: {
-          width: 4,
-          color: '#39ff14'
+      // Handle missing/broken sound files.
+      audio.addEventListener("error", function () {
+        if (currentAudio === audio) {
+          currentAudio = null;
         }
-      }], {
-        title: 'DNA Helix',
-        scene: {
-          xaxis: { title: 'x' },
-          yaxis: { title: 'y' },
-          zaxis: { title: 'z' },
-          bgcolor: 'black'
-        },
-        paper_bgcolor: 'black',
-        font: { color: '#39ff14' }
+
+        console.warn("Unable to load audio file:", url);
+        alert(
+          "The graph was created, but the sound file could not be loaded:\n" +
+          url
+        );
+      });
+
+      audio.play().catch(function (error) {
+        console.warn("Audio playback was blocked:", error);
+
+        alert(
+          "The browser blocked audio playback. " +
+          "Click 'Plot & Play' again or allow sound for this site."
+        );
       });
     }
 
+    /**
+     * Plot the leaf curve:
+     * r(θ) = sin(θ) × cos(θ)
+     */
+    function plotLeaf() {
+      const x = [];
+      const y = [];
+
+      const steps = 628;
+
+      for (let i = 0; i <= steps; i++) {
+        const theta = (i / steps) * Math.PI * 2;
+
+        const r =
+          Math.sin(theta) *
+          Math.cos(theta);
+
+        x.push(r * Math.cos(theta));
+        y.push(r * Math.sin(theta));
+      }
+
+      Plotly.newPlot(
+        "leafGraph",
+        [
+          {
+            x: x,
+            y: y,
+            mode: "lines",
+            name: "Leaf Equation",
+            line: {
+              width: 2
+            }
+          }
+        ],
+        {
+          title: "r(θ) = sin(θ) × cos(θ)",
+          plot_bgcolor: "black",
+          paper_bgcolor: "black",
+          font: {
+            color: "#39ff14"
+          },
+          xaxis: {
+            title: "x",
+            gridcolor: "#1f4d1f",
+            zerolinecolor: "#39ff14",
+            scaleanchor: "y"
+          },
+          yaxis: {
+            title: "y",
+            gridcolor: "#1f4d1f",
+            zerolinecolor: "#39ff14"
+          },
+          margin: {
+            l: 60,
+            r: 20,
+            t: 60,
+            b: 60
+          }
+        },
+        {
+          responsive: true
+        }
+      );
+    }
+
+    /**
+     * Plot a single 3D helix.
+     */
+    function plotDNA() {
+      const x = [];
+      const y = [];
+      const z = [];
+
+      const maxT = 20 * Math.PI;
+      const step = 0.1;
+
+      for (let t = 0; t <= maxT; t += step) {
+        x.push(Math.sin(t));
+        y.push(Math.cos(t));
+        z.push(0.05 * t);
+      }
+
+      Plotly.newPlot(
+        "dnaGraph",
+        [
+          {
+            type: "scatter3d",
+            mode: "lines",
+            x: x,
+            y: y,
+            z: z,
+            line: {
+              width: 4,
+              color: "#39ff14"
+            },
+            name: "DNA Strand"
+          }
+        ],
+        {
+          title: "DNA Helix",
+          scene: {
+            bgcolor: "black",
+
+            xaxis: {
+              title: "x",
+              gridcolor: "#1f4d1f",
+              zerolinecolor: "#39ff14"
+            },
+
+            yaxis: {
+              title: "y",
+              gridcolor: "#1f4d1f",
+              zerolinecolor: "#39ff14"
+            },
+
+            zaxis: {
+              title: "z",
+              gridcolor: "#1f4d1f",
+              zerolinecolor: "#39ff14"
+            }
+          },
+
+          paper_bgcolor: "black",
+
+          font: {
+            color: "#39ff14"
+          },
+
+          margin: {
+            l: 0,
+            r: 0,
+            t: 60,
+            b: 0
+          }
+        },
+        {
+          responsive: true
+        }
+      );
+    }
+
+    // Initial plots
     plotLeaf();
     plotDNA();
   </script>
-© 2025 Jan-1. 
-Hosted by GitHub. 
-All rights reserved under MIT License.
+
 </body>
 </html>
+```
