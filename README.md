@@ -15,14 +15,14 @@ Jan-1 is an educational web application designed to demonstrate the relationship
 - **GitHub Pages** for hosting.  
 
 ## Lisence:
-Read
+Read: https://github.com/ravka-io/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE.
 
 ## Who Can Use
 
-- **Students** seeking to visualize and hear mathematical functions :)  
-- **Teachers** demonstrating connections between math, biology, and sound :) 
-- **Researchers** exploring educational tools for STEM instruction :)  
-- **Anyone** interested in interactive, free, open-source educational software :)
+- **Students** seeking to visualize and hear mathematical functions.
+- **Teachers** demonstrating connections between math, biology, and sound.
+- **Researchers** exploring educational tools for STEM instruction.
+- **Anyone** interested in interactive, free, open-source educational software.
 
-© 2025 Ravka Piroshk. Hosted by GitHub. All rights reserved under MIT License.
+© 2025 Ravka Piroshk. Hosted by GitHub. All rights reserved.
 
