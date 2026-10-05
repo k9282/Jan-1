@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,22 +12,14 @@
   <title>Jan-1: Hear the Math</title>
 
   <!-- =========================================================
-       EXTERNAL LIBRARIES
+       LIBRARIES
        ========================================================= -->
 
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"
-    defer>
-  </script>
-
-  <script
-    src="https://cdn.plot.ly/plotly-2.30.0.min.js"
-    defer>
-  </script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
 
   <!-- =========================================================
-       STYLES
+       STYLE
        ========================================================= -->
 
   <style>
@@ -50,7 +41,7 @@
 
     body {
       margin: 0;
-      padding: 24px;
+      padding: 20px;
       background: var(--background);
       color: var(--foreground);
       font-family: "Courier New", Courier, monospace;
@@ -65,6 +56,8 @@
 
     header {
       margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--foreground);
     }
 
     h1,
@@ -74,12 +67,12 @@
     }
 
     h1 {
-      margin: 0 0 10px 0;
+      margin: 0 0 10px;
       font-size: clamp(2rem, 6vw, 3.2rem);
     }
 
     h2 {
-      margin-top: 45px;
+      margin-top: 42px;
       border-bottom: 1px solid var(--dark-green);
       padding-bottom: 8px;
     }
@@ -124,17 +117,6 @@
       margin: 20px 0;
     }
 
-    .project-panel {
-      max-width: 950px;
-      padding: 18px;
-      border: 1px solid var(--dark-green);
-      background: var(--panel);
-    }
-
-    /* =========================================================
-       FUNCTION CONTROLS
-       ========================================================= */
-
     .controls {
       max-width: 950px;
       padding: 18px;
@@ -164,17 +146,24 @@
       padding: 9px 12px;
     }
 
-    input {
+    input[type="text"] {
       width: min(100%, 500px);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--foreground);
+      padding: 0;
     }
 
     input::placeholder {
       color: #4d8f45;
     }
 
-    input:focus {
-      outline: none;
-      box-shadow: 0 0 8px rgba(57, 255, 20, 0.25);
+    input:focus,
+    button:focus-visible {
+      outline: 1px solid var(--foreground);
+      box-shadow: 0 0 8px rgba(57, 255, 20, 0.2);
     }
 
     button {
@@ -188,11 +177,6 @@
       outline: none;
     }
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
     .audio-status {
       min-height: 24px;
       margin-top: 12px;
@@ -200,28 +184,11 @@
       font-size: 14px;
     }
 
-    /*
-     * Native browser audio controls are intentionally kept visible.
-     * They provide a manual fallback if a browser blocks scripted audio.
-     */
-    #audioPlayer {
-      display: block;
-      width: 100%;
-      max-width: 650px;
-      margin-top: 8px;
-      margin-bottom: 18px;
-    }
-
-    /* =========================================================
-       PLOTS
-       ========================================================= */
-
     .plot {
       width: 100%;
       max-width: 950px;
       height: 440px;
-      margin-top: 20px;
-      margin-bottom: 24px;
+      margin: 20px 0 24px;
       border: 1px solid var(--dark-green);
       background: var(--background);
     }
@@ -232,36 +199,76 @@
       font-size: 14px;
     }
 
-    /* =========================================================
-       SOUND TABLE
-       ========================================================= */
-
-    .sound-table-wrapper {
-      width: 100%;
+    .audio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
       max-width: 950px;
-      overflow-x: auto;
     }
 
-    .sound-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 14px;
-    }
-
-    .sound-table th,
-    .sound-table td {
+    .field {
+      padding: 12px;
       border: 1px solid var(--dark-green);
-      padding: 9px;
+      background: var(--background);
     }
 
-    .sound-table th {
+    .field label {
+      display: block;
+      color: var(--soft-green);
+      margin-bottom: 7px;
+    }
+
+    .readout {
+      float: right;
+      color: var(--foreground);
+    }
+
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      max-width: 950px;
+    }
+
+    .preset {
+      text-align: left;
+    }
+
+    .preset strong {
+      color: var(--foreground);
+    }
+
+    .preset small {
+      display: block;
+      color: var(--soft-green);
+      font-weight: normal;
+      margin-top: 2px;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 14px;
+      max-width: 950px;
+    }
+
+    .legend div {
+      padding: 10px;
+      border: 1px solid var(--dark-green);
+      background: var(--background);
+    }
+
+    .legend b {
+      color: var(--foreground);
+    }
+
+    .project-panel {
+      max-width: 950px;
+      padding: 18px;
+      border: 1px solid var(--dark-green);
       background: var(--panel);
     }
-
-    /* =========================================================
-       FOOTER
-       ========================================================= */
 
     footer {
       max-width: 950px;
@@ -270,10 +277,6 @@
       border-top: 1px solid var(--dark-green);
       font-size: 13px;
     }
-
-    /* =========================================================
-       MOBILE
-       ========================================================= */
 
     @media (max-width: 700px) {
       body {
@@ -289,7 +292,7 @@
         margin-bottom: 7px;
       }
 
-      input,
+      input[type="text"],
       button {
         width: 100%;
         margin-bottom: 8px;
@@ -298,10 +301,15 @@
       .plot {
         height: 360px;
       }
+
+      .audio-grid,
+      .legend,
+      .presets {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-
 
 <body>
 
@@ -335,20 +343,18 @@
 
     <div class="notice">
       <strong>Note:</strong>
-      The graphing system uses Math.js and Plotly.js.
-      Audio is available only for mathematical expressions
-      that have a corresponding MP3 file in the project's
-      <code>sounds/</code> directory.
+      Graphing uses Math.js and Plotly.js.
+      Sound is generated directly in the browser using the
+      Web Audio API. No MP3 files are required.
     </div>
 
   </header>
-
 
   <hr>
 
 
   <!-- =========================================================
-       FUNCTION PLOTTER
+       FUNCTION PLOTTER + SOUND
        ========================================================= -->
 
   <section>
@@ -382,11 +388,17 @@
           id="funcInput"
           type="text"
           value="sin(x)"
-          placeholder="Example: sin(x)"
+          placeholder="Example: x^2 + sin(x)"
           autocomplete="off"
           spellcheck="false"
-          aria-label="Mathematical function"
+          aria-label="Mathematical expression"
         >
+
+        <button
+          id="plotButton"
+          type="button">
+          Plot
+        </button>
 
         <button
           id="plotPlayButton"
@@ -402,21 +414,12 @@
 
       </div>
 
-
       <div
         id="audioStatus"
         class="audio-status"
         aria-live="polite">
         Ready.
       </div>
-
-
-      <audio
-        id="audioPlayer"
-        controls
-        preload="metadata">
-        Your browser does not support HTML audio.
-      </audio>
 
     </div>
 
@@ -431,78 +434,134 @@
 
 
   <!-- =========================================================
-       AVAILABLE SOUNDS
+       SOUND CONTROLS
        ========================================================= -->
 
   <section>
 
-    <h2>Available Mathematical Sounds</h2>
+    <h2>Sound Controls</h2>
 
-    <p>
-      These are the sound files currently used by Jan-1.
-    </p>
+    <div class="audio-grid">
 
-    <div class="sound-table-wrapper">
+      <div class="field">
 
-      <table class="sound-table">
+        <label for="duration">
+          Duration
+          <span
+            id="durationOut"
+            class="readout">
+            4.0 s
+          </span>
+        </label>
 
-        <thead>
-          <tr>
-            <th>Mathematical expression</th>
-            <th>Audio file</th>
-          </tr>
-        </thead>
+        <input
+          id="duration"
+          type="range"
+          min="1"
+          max="10"
+          step="0.5"
+          value="4"
+        >
 
-        <tbody>
+      </div>
 
-          <tr>
-            <td><code>x</code></td>
-            <td><code>x.mp3</code></td>
-          </tr>
 
-          <tr>
-            <td><code>x^2</code></td>
-            <td><code>x^2.mp3</code></td>
-          </tr>
+      <div class="field">
 
-          <tr>
-            <td><code>x^3</code></td>
-            <td><code>x^3.mp3</code></td>
-          </tr>
+        <label for="volume">
+          Volume
+          <span
+            id="volumeOut"
+            class="readout">
+            0.25
+          </span>
+        </label>
 
-          <tr>
-            <td><code>x^6</code></td>
-            <td><code>x^6.mp3</code></td>
-          </tr>
+        <input
+          id="volume"
+          type="range"
+          min="0"
+          max="0.7"
+          step="0.01"
+          value="0.25"
+        >
 
-          <tr>
-            <td><code>sin(x)</code></td>
-            <td><code>sin.mp3</code></td>
-          </tr>
+      </div>
 
-          <tr>
-            <td><code>cos(x)</code></td>
-            <td><code>cos.mp3</code></td>
-          </tr>
 
-          <tr>
-            <td><code>tan(x)</code></td>
-            <td><code>tan.mp3</code></td>
-          </tr>
+      <div class="field">
 
-          <tr>
-            <td><code>sqrt(x^2)</code></td>
-            <td><code>sqrt(x^2).mp3</code></td>
-          </tr>
+        <label for="minFreq">
+          Low Frequency
+          <span
+            id="minFreqOut"
+            class="readout">
+            140 Hz
+          </span>
+        </label>
 
-          <tr>
-            <td><code>abs(x^7)</code></td>
-            <td><code>abs(x^7).mp3</code></td>
-          </tr>
+        <input
+          id="minFreq"
+          type="range"
+          min="60"
+          max="400"
+          step="10"
+          value="140"
+        >
 
-        </tbody>
+      </div>
 
-      </table>
+
+      <div class="field">
+
+        <label for="maxFreq">
+          High Frequency
+          <span
+            id="maxFreqOut"
+            class="readout">
+            880 Hz
+          </span>
+        </label>
+
+        <input
+          id="maxFreq"
+          type="range"
+          min="400"
+          max="1800"
+          step="20"
+          value="880"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="legend">
+
+      <div>
+        <b>X position</b>
+        <br>
+        <span>controls time</span>
+      </div>
+
+      <div>
+        <b>Y value</b>
+        <br>
+        <span>controls pitch</span>
+      </div>
+
+      <div>
+        <b>Amplitude</b>
+        <br>
+        <span>controls loudness</span>
+      </div>
+
+      <div>
+        <b>Slope</b>
+        <br>
+        <span>controls stereo position</span>
+      </div>
 
     </div>
 
@@ -510,7 +569,23 @@
 
 
   <!-- =========================================================
-       FIGURE 1 — LEAF-INSPIRED POLAR CURVE
+       PRESETS
+       ========================================================= -->
+
+  <section>
+
+    <h2>Function Presets</h2>
+
+    <div
+      id="presets"
+      class="presets">
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       FIGURE 1
        ========================================================= -->
 
   <section>
@@ -529,21 +604,20 @@
     <div class="caption">
 
       <p>
-        This graph uses the polar equation
+        This visualization uses the polar equation
         <code>r(θ) = sin(θ) × cos(θ)</code>.
       </p>
 
       <p>
-        The conversion to Cartesian coordinates is:
+        The Cartesian conversion is
         <code>x = r cos(θ)</code>
         and
         <code>y = r sin(θ)</code>.
       </p>
 
       <p>
-        The resulting four-lobed mathematical curve has an
-        organic appearance and demonstrates how polar mathematics
-        can generate forms reminiscent of patterns found in nature.
+        The resulting four-lobed curve demonstrates how
+        polar mathematics can generate organic-looking forms.
       </p>
 
     </div>
@@ -552,7 +626,7 @@
 
 
   <!-- =========================================================
-       FIGURE 2 — DNA DOUBLE HELIX
+       FIGURE 2
        ========================================================= -->
 
   <section>
@@ -571,17 +645,18 @@
     <div class="caption">
 
       <p>
-        This 3D visualization uses two phase-shifted helical curves.
+        This 3D visualization uses two phase-shifted
+        helical curves.
       </p>
 
       <p>
-        The two strands are connected at regular intervals to
-        represent the geometric idea of DNA base pairs.
+        The strands are connected at regular intervals
+        to represent the geometric concept of DNA base pairs.
       </p>
 
       <p>
-        The model is a mathematical visualization rather than a
-        molecular-scale biological simulation.
+        This is a mathematical visualization rather than
+        a molecular-scale biological simulation.
       </p>
 
     </div>
@@ -590,7 +665,7 @@
 
 
   <!-- =========================================================
-       PROJECT INFORMATION
+       ABOUT
        ========================================================= -->
 
   <section>
@@ -601,21 +676,14 @@
 
       <p>
         <strong>Jan-1</strong> is an educational web application
-        designed to demonstrate the relationship between mathematical
-        functions, their graphical representation, and corresponding
-        audio tones.
+        designed to demonstrate relationships between mathematical
+        functions, graphical representation, and sound.
       </p>
 
       <p>
-        The project also includes biology-inspired mathematical
-        visualizations, including a polar curve and a DNA double helix.
-      </p>
-
-      <p>
-        The purpose of Jan-1 is to provide a free and accessible
-        educational tool for students, teachers, researchers, and
-        anyone interested in exploring STEM concepts through
-        interactive visual and auditory representations.
+        The project also explores biology-inspired mathematical
+        forms through polar curves and a DNA double-helix
+        visualization.
       </p>
 
 
@@ -626,8 +694,8 @@
         <strong>JavaScript</strong><br>
         <strong>Math.js</strong> — mathematical expression evaluation<br>
         <strong>Plotly.js</strong> — interactive 2D and 3D graphs<br>
-        <strong>HTML Audio API</strong> — audio playback<br>
-        <strong>GitHub Pages</strong> — web hosting
+        <strong>Web Audio API</strong> — mathematical sound generation<br>
+        <strong>GitHub Pages</strong> — hosting
       </p>
 
 
@@ -671,12 +739,15 @@
     </p>
 
     <p>
-      Idea and management by <strong>Ravka Pirhavok</strong>.
+      Idea and management by
+      <strong>Ravka Pirhavok</strong>.
     </p>
 
     <p>
-      Coding by <strong>ChatGPT / GPT-4o</strong>
-      and <strong>ChatGPT / GPT-5.6 Luna</strong>.
+      Coding by
+      <strong>ChatGPT / GPT-4o</strong>
+      and
+      <strong>ChatGPT / GPT-5.6 Luna</strong>.
     </p>
 
     <p>
@@ -698,160 +769,100 @@
      =========================================================== -->
 
 <script>
-  /*
-   * Wait for Math.js and Plotly.js because both are loaded
-   * with "defer".
-   */
-  window.addEventListener("DOMContentLoaded", initializeJan1);
+
+  /* ==========================================================
+     AUDIO STATE
+     ========================================================== */
+
+  let audioContext = null;
+  let masterGain = null;
+  let activeOscillators = [];
+  let playbackToken = 0;
 
 
-  /* ============================================================
-     GLOBAL AUDIO ELEMENT
-     ============================================================ */
+  /* ==========================================================
+     APPLICATION STATE
+     ========================================================== */
 
-  let audioPlayer;
-
-
-  /*
-   * Only the files that actually exist in your repository.
-   *
-   * Relative paths are used because this project runs on
-   * GitHub Pages under the same repository.
-   */
-  const SOUND_FILES = {
-    x: "sounds/x.mp3",
-    x2: "sounds/x%5E2.mp3",
-    x3: "sounds/x%5E3.mp3",
-    x6: "sounds/x%5E6.mp3",
-
-    sin: "sounds/sin.mp3",
-    cos: "sounds/cos.mp3",
-    tan: "sounds/tan.mp3",
-
-    sqrtX2: "sounds/sqrt%28x%5E2%29.mp3",
-    absX7: "sounds/abs%28x%5E7%29.mp3"
+  const state = {
+    points: []
   };
 
 
-  /*
-   * Initialize the application.
-   */
-  function initializeJan1() {
+  /* ==========================================================
+     DOM
+     ========================================================== */
 
-    audioPlayer =
-      document.getElementById("audioPlayer");
+  const funcInput =
+    document.getElementById("funcInput");
 
-
-    /*
-     * Make sure the libraries loaded.
-     */
-    if (typeof math === "undefined") {
-
-      setAudioStatus(
-        "Error: Math.js could not be loaded."
-      );
-
-      return;
-    }
+  const audioStatus =
+    document.getElementById("audioStatus");
 
 
-    if (typeof Plotly === "undefined") {
+  /* ==========================================================
+     PRESETS
+     ========================================================== */
 
-      setAudioStatus(
-        "Error: Plotly.js could not be loaded."
-      );
+  const presets = [
 
-      return;
-    }
+    ["x", "Linear"],
 
+    ["x^2", "Quadratic"],
 
-    /*
-     * Button events.
-     */
-    document
-      .getElementById("plotPlayButton")
-      .addEventListener("click", handlePlotAndPlay);
+    ["x^3", "Cubic"],
 
+    ["x^4", "Quartic"],
 
-    document
-      .getElementById("stopButton")
-      .addEventListener("click", stopAudio);
+    ["x^5", "Quintic"],
 
+    ["x^6", "Sixth Power"],
 
-    /*
-     * Press Enter in the function box.
-     */
-    document
-      .getElementById("funcInput")
-      .addEventListener("keydown", function(event) {
+    ["sqrt(x^2)", "Absolute x"],
 
-        if (event.key === "Enter") {
-          handlePlotAndPlay();
-        }
+    ["abs(x)", "Absolute Value"],
 
-      });
+    ["abs(x^7)", "Absolute x^7"],
 
+    ["sin(x)", "Sine"],
 
-    /*
-     * Audio events.
-     */
-    audioPlayer.addEventListener(
-      "playing",
-      function() {
+    ["cos(x)", "Cosine"],
 
-        setAudioStatus(
-          "Audio playing."
-        );
+    ["tan(x)", "Tangent"],
 
-      }
-    );
+    ["sin(x)*x", "Sine × x"],
+
+    ["cos(x)*x", "Cosine × x"],
+
+    ["exp(-x^2)", "Gaussian"],
+
+    ["ln(abs(x)+1)", "Log Curve"],
+
+    ["sqrt(abs(x))", "Square Root"],
+
+    ["1/(1+x^2)", "Cauchy"],
+
+    ["sin(x^2)", "Chirp Curve"],
+
+    ["sin(x)/x", "Sinc-like"]
+
+  ];
 
 
-    audioPlayer.addEventListener(
-      "ended",
-      function() {
-
-        setAudioStatus(
-          "Audio finished."
-        );
-
-      }
-    );
-
-
-    audioPlayer.addEventListener(
-      "error",
-      handleAudioError
-    );
-
-
-    /*
-     * Draw the initial page.
-     */
-    plotFunction("sin(x)");
-    plotLeaf();
-    plotDNA();
-
-  }
-
-
-  /* ============================================================
+  /* ==========================================================
      STATUS
-     ============================================================ */
+     ========================================================== */
 
-  function setAudioStatus(message) {
+  function setStatus(message) {
 
-    const status =
-      document.getElementById("audioStatus");
-
-    status.textContent = message;
+    audioStatus.textContent = message;
 
   }
 
 
-  /* ============================================================
-     NORMALIZE INPUT
-     ============================================================ */
+  /* ==========================================================
+     NORMALIZE
+     ========================================================== */
 
   function normalizeExpression(expression) {
 
@@ -860,430 +871,46 @@
       .toLowerCase()
       .replace(/\s+/g, "")
       .replace(/×/g, "*")
-      .replace(/\*\*/g, "^");
+      .replace(/÷/g, "/")
+      .replace(/π/g, "pi");
 
   }
 
 
-  /* ============================================================
-     AUDIO FILE MATCHING
-     ============================================================ */
+  /* ==========================================================
+     EVALUATE FUNCTION
+     ========================================================== */
 
-  function getSound(expression) {
-
-    const expr =
-      normalizeExpression(expression);
-
-
-    /*
-     * Specific expressions FIRST.
-     */
-    if (expr === "sqrt(x^2)") {
-      return {
-        path: SOUND_FILES.sqrtX2,
-        name: "sqrt(x^2).mp3"
-      };
-    }
-
-
-    if (expr === "abs(x^7)") {
-      return {
-        path: SOUND_FILES.absX7,
-        name: "abs(x^7).mp3"
-      };
-    }
-
-
-    /*
-     * Trigonometric functions.
-     */
-    if (expr === "sin(x)") {
-      return {
-        path: SOUND_FILES.sin,
-        name: "sin.mp3"
-      };
-    }
-
-
-    if (expr === "cos(x)") {
-      return {
-        path: SOUND_FILES.cos,
-        name: "cos.mp3"
-      };
-    }
-
-
-    if (expr === "tan(x)") {
-      return {
-        path: SOUND_FILES.tan,
-        name: "tan.mp3"
-      };
-    }
-
-
-    /*
-     * Polynomial functions.
-     */
-    if (expr === "x") {
-      return {
-        path: SOUND_FILES.x,
-        name: "x.mp3"
-      };
-    }
-
-
-    if (expr === "x^2") {
-      return {
-        path: SOUND_FILES.x2,
-        name: "x^2.mp3"
-      };
-    }
-
-
-    if (expr === "x^3") {
-      return {
-        path: SOUND_FILES.x3,
-        name: "x^3.mp3"
-      };
-    }
-
-
-    if (expr === "x^6") {
-      return {
-        path: SOUND_FILES.x6,
-        name: "x^6.mp3"
-      };
-    }
-
-
-    return null;
-
-  }
-
-
-  /* ============================================================
-     PLOT + AUDIO
-     ============================================================ */
-
-  function handlePlotAndPlay() {
-
-    const input =
-      document.getElementById("funcInput");
-
-    const expression =
-      input.value.trim();
-
-
-    if (!expression) {
-
-      alert(
-        "Please enter a mathematical function."
-      );
-
-      return;
-    }
-
+  function evaluateFunction(expression) {
 
     const normalized =
       normalizeExpression(expression);
 
 
-    /*
-     * Validate and plot first.
-     */
-    const valid =
-      plotFunction(normalized);
+    const compiled =
+      math.compile(normalized);
 
 
-    if (!valid) {
-      return;
-    }
+    const points = [];
 
 
-    /*
-     * IMPORTANT:
-     *
-     * This call happens directly from the button click.
-     * No setTimeout, Promise delay, or asynchronous operation
-     * occurs before audioPlayer.play().
-     */
-    playSound(normalized);
+    const count =
+      801;
 
-  }
 
-
-  /* ============================================================
-     PLAY SOUND
-     * ============================================================ */
-
-  function playSound(expression) {
-
-    const sound =
-      getSound(expression);
-
-
-    /*
-     * No corresponding MP3.
-     */
-    if (!sound) {
-
-      audioPlayer.pause();
-
-      audioPlayer.removeAttribute("src");
-
-      setAudioStatus(
-        "No audio file is available for: " +
-        expression
-      );
-
-      return;
-    }
-
-
-    /*
-     * Stop current playback.
-     */
-    audioPlayer.pause();
-
-
-    /*
-     * Reset playback position.
-     */
-    try {
-
-      audioPlayer.currentTime = 0;
-
-    } catch (error) {
-      /*
-       * Safe to ignore.
-       */
-    }
-
-
-    /*
-     * Set new source.
-     */
-    audioPlayer.src = sound.path;
-
-
-    /*
-     * IMPORTANT:
-     *
-     * Do NOT call load() here before play().
-     * We want play() to remain directly associated
-     * with the user's button interaction.
-     */
-
-    const promise =
-      audioPlayer.play();
-
-
-    /*
-     * Modern browsers return a Promise.
-     */
-    if (promise && typeof promise.catch === "function") {
-
-      promise.catch(function(error) {
-
-        console.error(
-          "Audio playback failed:",
-          error
-        );
-
-
-        if (error.name === "NotAllowedError") {
-
-          setAudioStatus(
-            "Browser permission is blocking scripted audio. " +
-            "Use the Play control below or allow sound for this GitHub Pages site."
-          );
-
-          return;
-        }
-
-
-        if (error.name === "NotSupportedError") {
-
-          setAudioStatus(
-            "The browser cannot play this audio file: " +
-            sound.name
-          );
-
-          return;
-        }
-
-
-        setAudioStatus(
-          "Audio could not be played: " +
-          sound.name
-        );
-
-      });
-
-    }
-
-
-    setAudioStatus(
-      "Loading: " + sound.name
-    );
-
-  }
-
-
-  /* ============================================================
-     STOP AUDIO
-     ============================================================ */
-
-  function stopAudio() {
-
-    audioPlayer.pause();
-
-
-    try {
-
-      audioPlayer.currentTime = 0;
-
-    } catch (error) {
-      /*
-       * Safe to ignore.
-       */
-    }
-
-
-    setAudioStatus(
-      "Audio stopped."
-    );
-
-  }
-
-
-  /* ============================================================
-     AUDIO ERROR HANDLING
-     ============================================================ */
-
-  function handleAudioError() {
-
-    const error =
-      audioPlayer.error;
-
-
-    if (!error) {
-
-      setAudioStatus(
-        "Unknown audio error."
-      );
-
-      return;
-    }
-
-
-    switch (error.code) {
-
-      case MediaError.MEDIA_ERR_ABORTED:
-
-        setAudioStatus(
-          "Audio loading was aborted."
-        );
-
-        break;
-
-
-      case MediaError.MEDIA_ERR_NETWORK:
-
-        setAudioStatus(
-          "The audio could not be downloaded. " +
-          "Check the GitHub Pages connection."
-        );
-
-        break;
-
-
-      case MediaError.MEDIA_ERR_DECODE:
-
-        setAudioStatus(
-          "The audio file was found but could not be decoded."
-        );
-
-        break;
-
-
-      case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-
-        setAudioStatus(
-          "The audio file was not found or is unsupported."
-        );
-
-        break;
-
-
-      default:
-
-        setAudioStatus(
-          "An unknown audio error occurred."
-        );
-
-    }
-
-  }
-
-
-  /* ============================================================
-     FUNCTION PLOTTER
-     ============================================================ */
-
-  function plotFunction(expression) {
-
-    let mathExpression =
-      normalizeExpression(expression);
-
-
-    /*
-     * Support |x| as a convenience.
-     */
-    if (mathExpression === "|x|") {
-      mathExpression = "abs(x)";
-    }
-
-
-    let compiled;
-
-
-    /*
-     * Compile once instead of parsing the expression
-     * at every x-coordinate.
-     */
-    try {
-
-      compiled =
-        math.compile(mathExpression);
-
-    } catch (error) {
-
-      alert(
-        "Invalid mathematical expression.\n\n" +
-        error.message
-      );
-
-      return false;
-    }
-
-
-    const xValues = [];
-    const yValues = [];
-
-
-    /*
-     * Plot from -10 to +10.
-     */
-    const points = 500;
-
-
-    for (let i = 0; i <= points; i++) {
+    for (
+      let i = 0;
+      i < count;
+      i++
+    ) {
 
       const x =
-        -10 + (20 * i / points);
+        -10 +
+        (20 * i / (count - 1));
 
-      xValues.push(x);
+
+      let y =
+        NaN;
 
 
       try {
@@ -1294,76 +921,114 @@
           });
 
 
-        /*
-         * Only plot finite real numbers.
-         */
         if (
           typeof result === "number" &&
           Number.isFinite(result)
         ) {
 
-          yValues.push(result);
-
-        } else {
-
-          yValues.push(null);
+          y = result;
 
         }
 
       } catch (error) {
 
-        yValues.push(null);
+        y = NaN;
 
       }
+
+
+      /*
+       * Prevent huge values from destroying the plot
+       * and the sound mapping.
+       */
+      if (
+        Math.abs(y) > 1e6
+      ) {
+
+        y = NaN;
+
+      }
+
+
+      points.push({
+        x: x,
+        y: y
+      });
 
     }
 
 
     /*
-     * Break tan(x) around very large values so Plotly
-     * does not connect opposite sides of an asymptote.
+     * Break tangent-style jumps.
      */
-    if (mathExpression.includes("tan(")) {
+    for (
+      let i = 1;
+      i < points.length;
+      i++
+    ) {
 
-      for (let i = 1; i < yValues.length; i++) {
+      const previous =
+        points[i - 1];
 
-        const previous =
-          yValues[i - 1];
-
-        const current =
-          yValues[i];
+      const current =
+        points[i];
 
 
-        if (
-          previous !== null &&
-          current !== null &&
-          Math.abs(previous) > 20 &&
-          Math.abs(current) > 20 &&
-          Math.sign(previous) !== Math.sign(current)
-        ) {
+      if (
+        Number.isFinite(previous.y) &&
+        Number.isFinite(current.y) &&
+        Math.abs(
+          current.y - previous.y
+        ) > 100
+      ) {
 
-          yValues[i - 1] = null;
-          yValues[i] = null;
-
-        }
+        current.y =
+          NaN;
 
       }
 
     }
 
 
-    Plotly.newPlot(
+    return points;
+
+  }
+
+
+  /* ==========================================================
+     MAIN FUNCTION PLOT
+     ========================================================== */
+
+  function plotFunction(expression) {
+
+    const points =
+      evaluateFunction(expression);
+
+
+    state.points =
+      points;
+
+
+    Plotly.react(
+
       "graph",
 
       [
         {
+          x: points.map(
+            point => point.x
+          ),
+
+          y: points.map(
+            point => point.y
+          ),
+
           type: "scatter",
+
           mode: "lines",
 
-          x: xValues,
-          y: yValues,
-
-          name: "y = " + expression,
+          name:
+            "y = " + expression,
 
           connectgaps: false,
 
@@ -1375,26 +1040,43 @@
       ],
 
       {
-        title: "y = " + expression,
+        title:
+          "y = " + expression,
 
-        plot_bgcolor: "#000000",
-        paper_bgcolor: "#000000",
+        plot_bgcolor:
+          "#000000",
+
+        paper_bgcolor:
+          "#000000",
 
         font: {
-          color: "#39ff14",
-          family: "Courier New, monospace"
+          color:
+            "#39ff14",
+
+          family:
+            "Courier New, monospace"
         },
 
         xaxis: {
-          title: "x",
-          gridcolor: "#174d10",
-          zerolinecolor: "#39ff14"
+          title:
+            "x",
+
+          gridcolor:
+            "#174d10",
+
+          zerolinecolor:
+            "#39ff14"
         },
 
         yaxis: {
-          title: "y",
-          gridcolor: "#174d10",
-          zerolinecolor: "#39ff14"
+          title:
+            "y",
+
+          gridcolor:
+            "#174d10",
+
+          zerolinecolor:
+            "#39ff14"
         },
 
         margin: {
@@ -1403,36 +1085,895 @@
           t: 65,
           b: 60
         }
+
       },
 
       {
-        responsive: true,
-        displaylogo: false
+        responsive:
+          true,
+
+        displaylogo:
+          false
       }
+
     );
 
 
-    return true;
+    setStatus(
+      "Plotted " +
+      expression +
+      " over x ∈ [−10, 10]."
+    );
+
+
+    return points;
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
+     AUDIO INITIALIZATION
+     ========================================================== */
+
+  function ensureAudio() {
+
+    if (!audioContext) {
+
+      const AudioContextClass =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+
+      if (!AudioContextClass) {
+
+        throw new Error(
+          "Web Audio is not supported by this browser."
+        );
+
+      }
+
+
+      audioContext =
+        new AudioContextClass();
+
+
+      masterGain =
+        audioContext.createGain();
+
+
+      masterGain.gain.value =
+        Number(
+          document.getElementById(
+            "volume"
+          ).value
+        );
+
+
+      masterGain.connect(
+        audioContext.destination
+      );
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     STOP SOUND
+     ========================================================== */
+
+  function stopSound() {
+
+    playbackToken++;
+
+
+    for (
+      const oscillator of
+      activeOscillators
+    ) {
+
+      try {
+
+        oscillator.stop();
+
+      } catch (error) {
+
+        /*
+         * Oscillator may already be stopped.
+         */
+
+      }
+
+    }
+
+
+    activeOscillators =
+      [];
+
+
+    if (audioContext) {
+
+      masterGain.gain.cancelScheduledValues(
+        audioContext.currentTime
+      );
+
+
+      masterGain.gain.setValueAtTime(
+        0,
+        audioContext.currentTime
+      );
+
+    }
+
+
+    setStatus(
+      "Audio stopped."
+    );
+
+  }
+
+
+  /* ==========================================================
+     SONIFICATION
+     ========================================================== */
+
+  async function sonify(
+    expression,
+    points
+  ) {
+
+    ensureAudio();
+
+
+    /*
+     * Resume suspended audio context.
+     *
+     * This function is triggered by the user's
+     * Plot & Play button.
+     */
+    if (
+      audioContext.state ===
+      "suspended"
+    ) {
+
+      await audioContext.resume();
+
+    }
+
+
+    /*
+     * Stop anything already playing.
+     */
+    playbackToken++;
+
+
+    for (
+      const oscillator of
+      activeOscillators
+    ) {
+
+      try {
+
+        oscillator.stop();
+
+      } catch (error) {}
+
+    }
+
+
+    activeOscillators =
+      [];
+
+
+    const token =
+      playbackToken;
+
+
+    const duration =
+      Number(
+        document.getElementById(
+          "duration"
+        ).value
+      );
+
+
+    const volume =
+      Number(
+        document.getElementById(
+          "volume"
+        ).value
+      );
+
+
+    const lowFrequency =
+      Number(
+        document.getElementById(
+          "minFreq"
+        ).value
+      );
+
+
+    const highFrequency =
+      Number(
+        document.getElementById(
+          "maxFreq"
+        ).value
+      );
+
+
+    if (
+      highFrequency <=
+      lowFrequency
+    ) {
+
+      throw new Error(
+        "High frequency must be greater than low frequency."
+      );
+
+    }
+
+
+    const finiteValues =
+      points
+        .map(
+          point => point.y
+        )
+        .filter(
+          Number.isFinite
+        );
+
+
+    if (!finiteValues.length) {
+
+      throw new Error(
+        "The function has no finite real values to sonify."
+      );
+
+    }
+
+
+    const minimum =
+      Math.min(
+        ...finiteValues
+      );
+
+
+    const maximum =
+      Math.max(
+        ...finiteValues
+      );
+
+
+    const span =
+      maximum - minimum || 1;
+
+
+    /*
+     * More segments = smoother sonification.
+     */
+    const segments =
+      260;
+
+
+    const segmentDuration =
+      duration / segments;
+
+
+    /*
+     * Small scheduling lead.
+     */
+    const startTime =
+      audioContext.currentTime +
+      0.05;
+
+
+    masterGain.gain.cancelScheduledValues(
+      audioContext.currentTime
+    );
+
+
+    masterGain.gain.setValueAtTime(
+      volume,
+      audioContext.currentTime
+    );
+
+
+    setStatus(
+      "Playing: " +
+      expression
+    );
+
+
+    for (
+      let i = 0;
+      i < segments;
+      i++
+    ) {
+
+      if (
+        token !== playbackToken
+      ) {
+
+        return;
+
+      }
+
+
+      const pointIndex =
+        Math.floor(
+          i *
+          (points.length - 1) /
+          (segments - 1)
+        );
+
+
+      const point =
+        points[pointIndex];
+
+
+      /*
+       * Invalid points are interpreted as rests.
+       */
+      if (
+        !Number.isFinite(
+          point.y
+        )
+      ) {
+
+        continue;
+
+      }
+
+
+      const time =
+        startTime +
+        i *
+        segmentDuration;
+
+
+      /*
+       * Normalize the y-value to 0..1.
+       */
+      const normalized =
+        Math.max(
+          0,
+          Math.min(
+            1,
+            (point.y - minimum) /
+            span
+          )
+        );
+
+
+      /*
+       * Exponential pitch mapping.
+       */
+      const frequency =
+        lowFrequency *
+        Math.pow(
+          highFrequency /
+          lowFrequency,
+          normalized
+        );
+
+
+      /*
+       * Estimate local slope.
+       */
+      const previous =
+        points[
+          Math.max(
+            0,
+            pointIndex - 2
+          )
+        ];
+
+
+      const next =
+        points[
+          Math.min(
+            points.length - 1,
+            pointIndex + 2
+          )
+        ];
+
+
+      let slope =
+        0;
+
+
+      if (
+        Number.isFinite(previous.y) &&
+        Number.isFinite(next.y)
+      ) {
+
+        slope =
+          (
+            next.y -
+            previous.y
+          ) /
+          span;
+
+
+        slope =
+          Math.max(
+            -1,
+            Math.min(
+              1,
+              slope
+            )
+          );
+
+      }
+
+
+      /*
+       * Create oscillator.
+       */
+      const oscillator =
+        audioContext.createOscillator();
+
+
+      /*
+       * Create envelope.
+       */
+      const gain =
+        audioContext.createGain();
+
+
+      /*
+       * Create stereo panner.
+       */
+      const panner =
+        audioContext.createStereoPanner();
+
+
+      /*
+       * Slight waveform variation.
+       */
+      oscillator.type =
+        i % 3 === 0
+          ? "sine"
+          : "triangle";
+
+
+      oscillator.frequency.setValueAtTime(
+        frequency,
+        time
+      );
+
+
+      /*
+       * Keep each individual oscillator quiet.
+       */
+      const amplitude =
+        0.7 /
+        Math.sqrt(segments);
+
+
+      const fadeIn =
+        Math.min(
+          0.02,
+          segmentDuration * 0.2
+        );
+
+
+      const fadeOut =
+        Math.min(
+          0.04,
+          segmentDuration * 0.25
+        );
+
+
+      /*
+       * Envelope.
+       */
+      gain.gain.setValueAtTime(
+        0.0001,
+        time
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        amplitude,
+        time + fadeIn
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        time +
+        segmentDuration -
+        fadeOut
+      );
+
+
+      /*
+       * Stereo.
+       */
+      panner.pan.setValueAtTime(
+        slope,
+        time
+      );
+
+
+      /*
+       * Connect.
+       */
+      oscillator
+        .connect(gain)
+        .connect(panner)
+        .connect(masterGain);
+
+
+      /*
+       * Schedule oscillator.
+       */
+      oscillator.start(
+        time
+      );
+
+
+      oscillator.stop(
+        time +
+        segmentDuration
+      );
+
+
+      activeOscillators.push(
+        oscillator
+      );
+
+    }
+
+
+    /*
+     * Monitor playback.
+     */
+    const endTime =
+      startTime +
+      duration;
+
+
+    function monitor() {
+
+      if (
+        token !== playbackToken
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        audioContext.currentTime >=
+        endTime
+      ) {
+
+        activeOscillators =
+          [];
+
+
+        setStatus(
+          "Audio finished."
+        );
+
+
+        return;
+
+      }
+
+
+      requestAnimationFrame(
+        monitor
+      );
+
+    }
+
+
+    requestAnimationFrame(
+      monitor
+    );
+
+  }
+
+
+  /* ==========================================================
+     BUTTONS
+     ========================================================== */
+
+  document
+    .getElementById(
+      "plotButton"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        const expression =
+          funcInput.value.trim();
+
+
+        if (!expression) {
+
+          setStatus(
+            "Enter a mathematical function first."
+          );
+
+          return;
+
+        }
+
+
+        try {
+
+          plotFunction(
+            expression
+          );
+
+        } catch (error) {
+
+          setStatus(
+            error.message
+          );
+
+        }
+
+      }
+    );
+
+
+  document
+    .getElementById(
+      "plotPlayButton"
+    )
+    .addEventListener(
+      "click",
+      async function() {
+
+        const expression =
+          funcInput.value.trim();
+
+
+        if (!expression) {
+
+          setStatus(
+            "Enter a mathematical function first."
+          );
+
+          return;
+
+        }
+
+
+        try {
+
+          /*
+           * Plot using Plotly.
+           */
+          const points =
+            plotFunction(
+              expression
+            );
+
+
+          /*
+           * Start Web Audio from the
+           * same user interaction.
+           */
+          await sonify(
+            expression,
+            points
+          );
+
+        } catch (error) {
+
+          setStatus(
+            error.message
+          );
+
+          console.error(
+            "Jan-1 error:",
+            error
+          );
+
+        }
+
+      }
+    );
+
+
+  document
+    .getElementById(
+      "stopButton"
+    )
+    .addEventListener(
+      "click",
+      stopSound
+    );
+
+
+  /* ==========================================================
+     ENTER KEY
+     ========================================================== */
+
+  funcInput.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        document
+          .getElementById(
+            "plotPlayButton"
+          )
+          .click();
+
+      }
+
+    }
+  );
+
+
+  /* ==========================================================
+     RANGE CONTROLS
+     ========================================================== */
+
+  function bindRange(
+    inputId,
+    outputId,
+    suffix
+  ) {
+
+    const input =
+      document.getElementById(
+        inputId
+      );
+
+
+    const output =
+      document.getElementById(
+        outputId
+      );
+
+
+    input.addEventListener(
+      "input",
+      function() {
+
+        output.textContent =
+          input.value +
+          suffix;
+
+      }
+    );
+
+  }
+
+
+  bindRange(
+    "duration",
+    "durationOut",
+    " s"
+  );
+
+
+  bindRange(
+    "volume",
+    "volumeOut",
+    ""
+  );
+
+
+  bindRange(
+    "minFreq",
+    "minFreqOut",
+    " Hz"
+  );
+
+
+  bindRange(
+    "maxFreq",
+    "maxFreqOut",
+    " Hz"
+  );
+
+
+  /* ==========================================================
+     PRESET BUTTONS
+     ========================================================== */
+
+  presets.forEach(
+    function([
+      expression,
+      name
+    ]) {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+
+      button.className =
+        "preset";
+
+
+      button.innerHTML =
+        "<strong>" +
+        name +
+        "</strong>" +
+        "<small>" +
+        expression +
+        "</small>";
+
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          funcInput.value =
+            expression;
+
+
+          try {
+
+            plotFunction(
+              expression
+            );
+
+          } catch (error) {
+
+            setStatus(
+              error.message
+            );
+
+          }
+
+        }
+      );
+
+
+      document
+        .getElementById(
+          "presets"
+        )
+        .appendChild(
+          button
+        );
+
+    }
+  );
+
+
+  /* ==========================================================
      LEAF CURVE
-     ============================================================ */
+     ========================================================== */
 
   function plotLeaf() {
 
-    const xValues = [];
-    const yValues = [];
-
-    const steps = 1200;
+    const x = [];
+    const y = [];
 
 
-    for (let i = 0; i <= steps; i++) {
+    for (
+      let i = 0;
+      i <= 1200;
+      i++
+    ) {
 
       const theta =
-        (2 * Math.PI * i) / steps;
+        2 *
+        Math.PI *
+        i /
+        1200;
 
 
       /*
@@ -1443,15 +1984,16 @@
         Math.cos(theta);
 
 
-      const x =
-        r * Math.cos(theta);
+      x.push(
+        r *
+        Math.cos(theta)
+      );
 
-      const y =
-        r * Math.sin(theta);
 
-
-      xValues.push(x);
-      yValues.push(y);
+      y.push(
+        r *
+        Math.sin(theta)
+      );
 
     }
 
@@ -1461,17 +2003,24 @@
 
       [
         {
-          type: "scatter",
-          mode: "lines",
+          x: x,
+          y: y,
 
-          x: xValues,
-          y: yValues,
+          type:
+            "scatter",
 
-          name: "Leaf-Inspired Curve",
+          mode:
+            "lines",
+
+          name:
+            "Leaf Curve",
 
           line: {
-            color: "#39ff14",
-            width: 3
+            color:
+              "#39ff14",
+
+            width:
+              3
           }
         }
       ],
@@ -1480,25 +2029,43 @@
         title:
           "r(θ) = sin(θ) × cos(θ)",
 
-        plot_bgcolor: "#000000",
-        paper_bgcolor: "#000000",
+        plot_bgcolor:
+          "#000000",
+
+        paper_bgcolor:
+          "#000000",
 
         font: {
-          color: "#39ff14",
-          family: "Courier New, monospace"
+          color:
+            "#39ff14",
+
+          family:
+            "Courier New, monospace"
         },
 
         xaxis: {
-          title: "x",
-          gridcolor: "#174d10",
-          zerolinecolor: "#39ff14",
-          scaleanchor: "y"
+          title:
+            "x",
+
+          gridcolor:
+            "#174d10",
+
+          zerolinecolor:
+            "#39ff14",
+
+          scaleanchor:
+            "y"
         },
 
         yaxis: {
-          title: "y",
-          gridcolor: "#174d10",
-          zerolinecolor: "#39ff14"
+          title:
+            "y",
+
+          gridcolor:
+            "#174d10",
+
+          zerolinecolor:
+            "#39ff14"
         },
 
         margin: {
@@ -1507,20 +2074,25 @@
           t: 65,
           b: 60
         }
+
       },
 
       {
-        responsive: true,
-        displaylogo: false
+        responsive:
+          true,
+
+        displaylogo:
+          false
       }
+
     );
 
   }
 
 
-  /* ============================================================
+  /* ==========================================================
      DNA DOUBLE HELIX
-     ============================================================ */
+     ========================================================== */
 
   function plotDNA() {
 
@@ -1538,22 +2110,25 @@
 
 
     const maxT =
-      18 * Math.PI;
+      18 *
+      Math.PI;
+
 
     const step =
       0.035;
 
+
     const radius =
       1;
+
 
     const heightScale =
       0.055;
 
 
-    /* ----------------------------------------------------------
-       TWO HELICAL STRANDS
-       ---------------------------------------------------------- */
-
+    /*
+     * Main strands.
+     */
     for (
       let t = 0;
       t <= maxT;
@@ -1561,43 +2136,58 @@
     ) {
 
       const z =
-        heightScale * t;
+        heightScale *
+        t;
 
 
-      /*
-       * Strand 1
-       */
       strand1X.push(
-        radius * Math.sin(t)
+        radius *
+        Math.sin(t)
       );
+
 
       strand1Y.push(
-        radius * Math.cos(t)
+        radius *
+        Math.cos(t)
       );
 
-      strand1Z.push(z);
+
+      strand1Z.push(
+        z
+      );
 
 
       /*
-       * Strand 2 is π radians out of phase.
+       * Second strand is π radians out of phase.
        */
       strand2X.push(
-        radius * Math.sin(t + Math.PI)
+        radius *
+        Math.sin(
+          t +
+          Math.PI
+        )
       );
+
 
       strand2Y.push(
-        radius * Math.cos(t + Math.PI)
+        radius *
+        Math.cos(
+          t +
+          Math.PI
+        )
       );
 
-      strand2Z.push(z);
+
+      strand2Z.push(
+        z
+      );
 
     }
 
 
-    /* ----------------------------------------------------------
-       BASE-PAIR CONNECTORS
-       ---------------------------------------------------------- */
-
+    /*
+     * Base pair connectors.
+     */
     const basePairs =
       75;
 
@@ -1609,40 +2199,55 @@
     ) {
 
       const t =
-        (maxT * i) / basePairs;
+        maxT *
+        i /
+        basePairs;
+
 
       const z =
-        heightScale * t;
+        heightScale *
+        t;
 
 
       const x1 =
-        radius * Math.sin(t);
+        radius *
+        Math.sin(t);
+
 
       const y1 =
-        radius * Math.cos(t);
+        radius *
+        Math.cos(t);
 
 
       const x2 =
-        radius * Math.sin(t + Math.PI);
+        radius *
+        Math.sin(
+          t +
+          Math.PI
+        );
+
 
       const y2 =
-        radius * Math.cos(t + Math.PI);
+        radius *
+        Math.cos(
+          t +
+          Math.PI
+        );
 
 
-      /*
-       * null separates each individual connector.
-       */
       connectorX.push(
         x1,
         x2,
         null
       );
 
+
       connectorY.push(
         y1,
         y2,
         null
       );
+
 
       connectorZ.push(
         z,
@@ -1653,131 +2258,268 @@
     }
 
 
-    /* ----------------------------------------------------------
-       PLOT
-       ---------------------------------------------------------- */
-
     Plotly.newPlot(
       "dnaGraph",
 
       [
+
         {
-          type: "scatter3d",
-          mode: "lines",
+          type:
+            "scatter3d",
 
-          x: strand1X,
-          y: strand1Y,
-          z: strand1Z,
+          mode:
+            "lines",
 
-          name: "Strand 1",
+          x:
+            strand1X,
+
+          y:
+            strand1Y,
+
+          z:
+            strand1Z,
+
+          name:
+            "Strand 1",
 
           line: {
-            color: "#39ff14",
-            width: 6
+            color:
+              "#39ff14",
+
+            width:
+              6
           }
         },
 
+
         {
-          type: "scatter3d",
-          mode: "lines",
+          type:
+            "scatter3d",
 
-          x: strand2X,
-          y: strand2Y,
-          z: strand2Z,
+          mode:
+            "lines",
 
-          name: "Strand 2",
+          x:
+            strand2X,
+
+          y:
+            strand2Y,
+
+          z:
+            strand2Z,
+
+          name:
+            "Strand 2",
 
           line: {
-            color: "#39ff14",
-            width: 6
+            color:
+              "#39ff14",
+
+            width:
+              6
           }
         },
 
+
         {
-          type: "scatter3d",
-          mode: "lines",
+          type:
+            "scatter3d",
 
-          x: connectorX,
-          y: connectorY,
-          z: connectorZ,
+          mode:
+            "lines",
 
-          name: "Base Pairs",
+          x:
+            connectorX,
+
+          y:
+            connectorY,
+
+          z:
+            connectorZ,
+
+          name:
+            "Base Pairs",
 
           line: {
-            color: "#7dff68",
-            width: 3
+            color:
+              "#7dff68",
+
+            width:
+              3
           }
         }
+
       ],
 
       {
+
         title:
           "Mathematical DNA Double Helix",
 
-        paper_bgcolor: "#000000",
+        paper_bgcolor:
+          "#000000",
 
         font: {
-          color: "#39ff14",
-          family: "Courier New, monospace"
+          color:
+            "#39ff14",
+
+          family:
+            "Courier New, monospace"
         },
 
         scene: {
 
-          bgcolor: "#000000",
+          bgcolor:
+            "#000000",
 
           xaxis: {
-            title: "x",
-            gridcolor: "#174d10",
-            zerolinecolor: "#39ff14"
+            title:
+              "x",
+
+            gridcolor:
+              "#174d10",
+
+            zerolinecolor:
+              "#39ff14"
           },
 
           yaxis: {
-            title: "y",
-            gridcolor: "#174d10",
-            zerolinecolor: "#39ff14"
+            title:
+              "y",
+
+            gridcolor:
+              "#174d10",
+
+            zerolinecolor:
+              "#39ff14"
           },
 
           zaxis: {
-            title: "z",
-            gridcolor: "#174d10",
-            zerolinecolor: "#39ff14"
+            title:
+              "z",
+
+            gridcolor:
+              "#174d10",
+
+            zerolinecolor:
+              "#39ff14"
           },
 
-          aspectmode: "manual",
+          aspectmode:
+            "manual",
 
           aspectratio: {
-            x: 1,
-            y: 1,
-            z: 2
+            x:
+              1,
+
+            y:
+              1,
+
+            z:
+              2
           }
+
         },
 
         margin: {
-          l: 0,
-          r: 0,
-          t: 65,
-          b: 0
+          l:
+            0,
+
+          r:
+            0,
+
+          t:
+            65,
+
+          b:
+            0
         },
 
-        showlegend: true,
+        showlegend:
+          true
 
-        legend: {
-          font: {
-            color: "#39ff14"
-          }
-        }
       },
 
       {
-        responsive: true,
-        displaylogo: false
+        responsive:
+          true,
+
+        displaylogo:
+          false
       }
+
     );
 
   }
+
+
+  /* ==========================================================
+     INITIALIZE GRAPHS
+     ========================================================== */
+
+  window.addEventListener(
+    "load",
+    function() {
+
+      if (
+        typeof math ===
+        "undefined"
+      ) {
+
+        setStatus(
+          "Math.js failed to load."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        typeof Plotly ===
+        "undefined"
+      ) {
+
+        setStatus(
+          "Plotly.js failed to load."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        plotFunction(
+          "sin(x)"
+        );
+
+
+        plotLeaf();
+
+
+        plotDNA();
+
+
+      } catch (error) {
+
+        setStatus(
+          "Initialization error: " +
+          error.message
+        );
+
+        console.error(
+          "Initialization error:",
+          error
+        );
+
+      }
+
+    }
+  );
 
 </script>
 
 </body>
 </html>
-```
