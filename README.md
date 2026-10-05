@@ -17,7 +17,7 @@ Jan-1 is an educational web application designed to demonstrate the relationship
 - **Audio Playback** via the HTML Audio API. 
 - **GitHub Pages** for hosting.  
 
-## Lisence:
+## License:
 Read: https://github.com/ravka-io/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE.
 
 ## Who Can Use
