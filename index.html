@@ -5,38 +5,176 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Jan-1 | Hear the Math</title>
+  <meta
+    name="description"
+    content="Jan-1: Hear the Math — an educational project connecting mathematical functions, graphs, sound, and biology-inspired visualizations."
+  >
 
-  <!-- External libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
-  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+  <title>Jan-1: Hear the Math</title>
+
+  <!-- =========================================================
+       EXTERNAL LIBRARIES
+       ========================================================= -->
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"
+    defer>
+  </script>
+
+  <script
+    src="https://cdn.plot.ly/plotly-2.30.0.min.js"
+    defer>
+  </script>
+
+
+  <!-- =========================================================
+       STYLES
+       ========================================================= -->
 
   <style>
+    :root {
+      --background: #000000;
+      --foreground: #39ff14;
+      --soft-green: #7dff68;
+      --dark-green: #174d10;
+      --panel: #050505;
+    }
+
     * {
       box-sizing: border-box;
     }
 
-    body {
-      background-color: black;
-      color: #39ff14;
-      font-family: "Courier New", Courier, monospace;
-      padding: 20px;
-      margin: 0;
+    html {
+      scroll-behavior: smooth;
     }
 
-    button,
-    input {
-      background-color: black;
-      border: 1px solid #39ff14;
-      color: #39ff14;
-      padding: 8px;
-      font-size: 16px;
-      margin: 5px 5px 20px 0;
+    body {
+      margin: 0;
+      padding: 24px;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.6;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--foreground);
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+    }
+
+    h2 {
+      margin-top: 45px;
+      border-bottom: 1px solid var(--dark-green);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      margin-top: 30px;
+    }
+
+    p {
+      max-width: 950px;
+    }
+
+    a {
+      color: var(--soft-green);
+    }
+
+    a:hover {
+      color: var(--foreground);
+    }
+
+    code {
+      color: var(--soft-green);
+      background: rgba(57, 255, 20, 0.06);
+      padding: 1px 4px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--foreground);
+      margin: 30px 0;
+    }
+
+    .tagline {
+      font-size: 1.05rem;
+    }
+
+    .notice {
+      max-width: 950px;
+      padding: 14px;
+      border: 1px solid var(--dark-green);
+      background: var(--panel);
+      margin: 20px 0;
+    }
+
+    .project-panel {
+      max-width: 950px;
+      padding: 18px;
+      border: 1px solid var(--dark-green);
+      background: var(--panel);
+    }
+
+    /* =========================================================
+       FUNCTION CONTROLS
+       ========================================================= */
+
+    .controls {
+      max-width: 950px;
+      padding: 18px;
+      border: 1px solid var(--dark-green);
+      background: var(--panel);
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    label {
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    input,
+    button {
       font-family: inherit;
+      font-size: 16px;
+      color: var(--foreground);
+      background: var(--background);
+      border: 1px solid var(--foreground);
+      padding: 9px 12px;
     }
 
     input {
       width: min(100%, 500px);
+    }
+
+    input::placeholder {
+      color: #4d8f45;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(57, 255, 20, 0.25);
     }
 
     button {
@@ -44,464 +182,1601 @@
     }
 
     button:hover,
-    button:focus {
-      background-color: #39ff14;
-      color: black;
+    button:focus-visible {
+      background: var(--foreground);
+      color: var(--background);
       outline: none;
     }
 
-    h1,
-    h2 {
-      color: #39ff14;
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
-    h1 {
-      margin-top: 0;
+    .audio-status {
+      min-height: 24px;
+      margin-top: 12px;
+      color: var(--soft-green);
+      font-size: 14px;
     }
 
-    hr {
-      border: 0;
-      border-top: 1px solid #39ff14;
-      margin: 25px 0;
+    /*
+     * Native browser audio controls are intentionally kept visible.
+     * They provide a manual fallback if a browser blocks scripted audio.
+     */
+    #audioPlayer {
+      display: block;
+      width: 100%;
+      max-width: 650px;
+      margin-top: 8px;
+      margin-bottom: 18px;
     }
 
-    code {
-      color: #7dff68;
-    }
+    /* =========================================================
+       PLOTS
+       ========================================================= */
 
     .plot {
       width: 100%;
-      max-width: 900px;
-      height: 400px;
-      margin-bottom: 20px;
+      max-width: 950px;
+      height: 440px;
+      margin-top: 20px;
+      margin-bottom: 24px;
+      border: 1px solid var(--dark-green);
+      background: var(--background);
     }
 
     .caption {
-      max-width: 900px;
+      max-width: 950px;
+      margin-bottom: 35px;
       font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 40px;
     }
 
-    .notice {
-      display: inline-block;
-      margin-bottom: 10px;
+    /* =========================================================
+       SOUND TABLE
+       ========================================================= */
+
+    .sound-table-wrapper {
+      width: 100%;
+      max-width: 950px;
+      overflow-x: auto;
     }
 
-    .copyright {
-      margin-top: 30px;
+    .sound-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .sound-table th,
+    .sound-table td {
+      border: 1px solid var(--dark-green);
+      padding: 9px;
+    }
+
+    .sound-table th {
+      background: var(--panel);
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer {
+      max-width: 950px;
+      margin-top: 55px;
+      padding-top: 20px;
+      border-top: 1px solid var(--dark-green);
       font-size: 13px;
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 700px) {
+      body {
+        padding: 14px;
+      }
+
+      .control-row {
+        display: block;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 7px;
+      }
+
+      input,
+      button {
+        width: 100%;
+        margin-bottom: 8px;
+      }
+
+      .plot {
+        height: 360px;
+      }
     }
   </style>
 </head>
 
+
 <body>
 
-  <h1>Jan-1: Hear the Math</h1>
+<main>
 
-  <p><strong>Created by Ale Mustafa</strong></p>
+  <!-- =========================================================
+       HEADER
+       ========================================================= -->
 
-  <p>
-    <em>
-      "Mathematics is like the music of reason; you just have to hear it!!"
-      — Niels Bohr
-    </em>
-  </p>
+  <header>
 
-  <p class="notice">
-    <em>
-      Please note that some functions may not be available.
-      Please allow sound permissions for a better experience.
-    </em>
-  </p>
+    <h1>Jan-1: Hear the Math</h1>
+
+    <p>
+      <strong>Idea and management by Ravka Pirhavok</strong>
+    </p>
+
+    <p>
+      Coding by
+      <strong>ChatGPT / GPT-4o</strong>
+      and
+      <strong>ChatGPT / GPT-5.6 Luna</strong>.
+    </p>
+
+    <p class="tagline">
+      <em>
+        Mathematics can be explored not only visually,
+        but also through sound.
+      </em>
+    </p>
+
+    <div class="notice">
+      <strong>Note:</strong>
+      The graphing system uses Math.js and Plotly.js.
+      Audio is available only for mathematical expressions
+      that have a corresponding MP3 file in the project's
+      <code>sounds/</code> directory.
+    </div>
+
+  </header>
+
 
   <hr>
 
-  <h2>Function Plotter + Sound</h2>
 
-  <p>
-    <strong>Note:</strong>
-    Use parentheses to avoid confusion.
-    For example, use <code>sin(x)</code> rather than <code>sinx</code>,
-    and <code>(x^2 + 1)</code> rather than <code>x^2 + 1</code>.
-  </p>
+  <!-- =========================================================
+       FUNCTION PLOTTER
+       ========================================================= -->
 
-  <p>
-    <strong>Audio note:</strong>
-    Audio is currently available for functions containing
-    <code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code>,
-    <code>x^2</code>, or <code>abs(x)</code>, provided the corresponding
-    sound files exist.
-  </p>
+  <section>
 
-  <label for="funcInput">Function y = </label>
+    <h2>Function Plotter + Sound</h2>
 
-  <input
-    id="funcInput"
-    type="text"
-    value="sin(x)"
-    placeholder="Example: sin(x)"
-    autocomplete="off"
-    spellcheck="false"
-  >
+    <p>
+      Enter a mathematical function using <code>x</code> as the variable.
+    </p>
 
-  <br>
+    <p>
+      Examples:
+      <code>x</code>,
+      <code>x^2</code>,
+      <code>x^3</code>,
+      <code>x^6</code>,
+      <code>sin(x)</code>,
+      <code>cos(x)</code>,
+      <code>tan(x)</code>,
+      <code>sqrt(x^2)</code>,
+      <code>abs(x^7)</code>.
+    </p>
 
-  <button type="button" onclick="plotAndPlay()">
-    Plot &amp; Play
-  </button>
+    <div class="controls">
 
-  <button type="button" onclick="stopSound()">
-    Stop Sound
-  </button>
+      <div class="control-row">
 
-  <div id="graph" class="plot"></div>
+        <label for="funcInput">y =</label>
 
-  <h2>Mathematics in Biology / Fig. 1: Leaf Curve</h2>
+        <input
+          id="funcInput"
+          type="text"
+          value="sin(x)"
+          placeholder="Example: sin(x)"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Mathematical function"
+        >
 
-  <div id="leafGraph" class="plot"></div>
+        <button
+          id="plotPlayButton"
+          type="button">
+          Plot &amp; Play
+        </button>
 
-  <div class="caption">
-    This graph uses the polar equation
-    <code>r(θ) = sin(θ) × cos(θ)</code>,
-    plotted as <code>x = r cos(θ)</code> and
-    <code>y = r sin(θ)</code>.
-    The resulting curve demonstrates how polar equations can produce
-    organic-looking mathematical forms.
-  </div>
+        <button
+          id="stopButton"
+          type="button">
+          Stop Sound
+        </button>
 
-  <h2>Mathematics in Biology / Fig. 2: DNA Helix</h2>
+      </div>
 
-  <div id="dnaGraph" class="plot"></div>
 
-  <div class="caption">
-    This 3D plot shows a single helical curve using the parametric equations
-    <code>x = sin(t)</code>,
-    <code>y = cos(t)</code>,
-    and <code>z = 0.05 × t</code>.
-    It visually resembles one strand of a DNA helix.
-    A second phase-shifted strand and connecting base pairs could be added
-    to create a full double-helix model.
-  </div>
+      <div
+        id="audioStatus"
+        class="audio-status"
+        aria-live="polite">
+        Ready.
+      </div>
 
-  <p class="copyright">
-    © 2025 Jan-1. Hosted by GitHub. All rights reserved under the MIT License.
-  </p>
 
-  <script>
-    let currentAudio = null;
+      <audio
+        id="audioPlayer"
+        controls
+        preload="metadata">
+        Your browser does not support HTML audio.
+      </audio>
 
-    /**
-     * Plot the user's mathematical expression and play the
-     * corresponding sound, when available.
+    </div>
+
+
+    <div
+      id="graph"
+      class="plot"
+      aria-label="Mathematical function graph">
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       AVAILABLE SOUNDS
+       ========================================================= -->
+
+  <section>
+
+    <h2>Available Mathematical Sounds</h2>
+
+    <p>
+      These are the sound files currently used by Jan-1.
+    </p>
+
+    <div class="sound-table-wrapper">
+
+      <table class="sound-table">
+
+        <thead>
+          <tr>
+            <th>Mathematical expression</th>
+            <th>Audio file</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><code>x</code></td>
+            <td><code>x.mp3</code></td>
+          </tr>
+
+          <tr>
+            <td><code>x^2</code></td>
+            <td><code>x^2.mp3</code></td>
+          </tr>
+
+          <tr>
+            <td><code>x^3</code></td>
+            <td><code>x^3.mp3</code></td>
+          </tr>
+
+          <tr>
+            <td><code>x^6</code></td>
+            <td><code>x^6.mp3</code></td>
+          </tr>
+
+          <tr>
+            <td><code>sin(x)</code></td>
+            <td><code>sin.mp3</code></td>
+          </tr>
+
+          <tr>
+            <td><code>cos(x)</code></td>
+            <td><code>cos.mp3</code></td>
+          </tr>
+
+          <tr>
+            <td><code>tan(x)</code></td>
+            <td><code>tan.mp3</code></td>
+          </tr>
+
+          <tr>
+            <td><code>sqrt(x^2)</code></td>
+            <td><code>sqrt(x^2).mp3</code></td>
+          </tr>
+
+          <tr>
+            <td><code>abs(x^7)</code></td>
+            <td><code>abs(x^7).mp3</code></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       FIGURE 1 — LEAF-INSPIRED POLAR CURVE
+       ========================================================= -->
+
+  <section>
+
+    <h2>
+      Mathematics in Biology / Fig. 1:
+      Leaf-Inspired Curve
+    </h2>
+
+    <div
+      id="leafGraph"
+      class="plot"
+      aria-label="Leaf-inspired polar curve">
+    </div>
+
+    <div class="caption">
+
+      <p>
+        This graph uses the polar equation
+        <code>r(θ) = sin(θ) × cos(θ)</code>.
+      </p>
+
+      <p>
+        The conversion to Cartesian coordinates is:
+        <code>x = r cos(θ)</code>
+        and
+        <code>y = r sin(θ)</code>.
+      </p>
+
+      <p>
+        The resulting four-lobed mathematical curve has an
+        organic appearance and demonstrates how polar mathematics
+        can generate forms reminiscent of patterns found in nature.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       FIGURE 2 — DNA DOUBLE HELIX
+       ========================================================= -->
+
+  <section>
+
+    <h2>
+      Mathematics in Biology / Fig. 2:
+      DNA Double Helix
+    </h2>
+
+    <div
+      id="dnaGraph"
+      class="plot"
+      aria-label="Mathematical DNA double helix">
+    </div>
+
+    <div class="caption">
+
+      <p>
+        This 3D visualization uses two phase-shifted helical curves.
+      </p>
+
+      <p>
+        The two strands are connected at regular intervals to
+        represent the geometric idea of DNA base pairs.
+      </p>
+
+      <p>
+        The model is a mathematical visualization rather than a
+        molecular-scale biological simulation.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       PROJECT INFORMATION
+       ========================================================= -->
+
+  <section>
+
+    <h2>About Jan-1</h2>
+
+    <div class="project-panel">
+
+      <p>
+        <strong>Jan-1</strong> is an educational web application
+        designed to demonstrate the relationship between mathematical
+        functions, their graphical representation, and corresponding
+        audio tones.
+      </p>
+
+      <p>
+        The project also includes biology-inspired mathematical
+        visualizations, including a polar curve and a DNA double helix.
+      </p>
+
+      <p>
+        The purpose of Jan-1 is to provide a free and accessible
+        educational tool for students, teachers, researchers, and
+        anyone interested in exploring STEM concepts through
+        interactive visual and auditory representations.
+      </p>
+
+
+      <h3>Tools &amp; Technologies</h3>
+
+      <p>
+        <strong>HTML5 &amp; CSS3</strong><br>
+        <strong>JavaScript</strong><br>
+        <strong>Math.js</strong> — mathematical expression evaluation<br>
+        <strong>Plotly.js</strong> — interactive 2D and 3D graphs<br>
+        <strong>HTML Audio API</strong> — audio playback<br>
+        <strong>GitHub Pages</strong> — web hosting
+      </p>
+
+
+      <h3>Repository</h3>
+
+      <p>
+        <a
+          href="https://github.com/ravka-io/Jan-1"
+          target="_blank"
+          rel="noopener noreferrer">
+          https://github.com/ravka-io/Jan-1
+        </a>
+      </p>
+
+
+      <h3>License</h3>
+
+      <p>
+        Jan-1 is released under the
+        <a
+          href="https://opensource.org/licenses/MIT"
+          target="_blank"
+          rel="noopener noreferrer">
+          MIT License
+        </a>.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+
+  <footer>
+
+    <p>
+      <strong>Jan-1: Hear the Math</strong>
+    </p>
+
+    <p>
+      Idea and management by <strong>Ravka Pirhavok</strong>.
+    </p>
+
+    <p>
+      Coding by <strong>ChatGPT / GPT-4o</strong>
+      and <strong>ChatGPT / GPT-5.6 Luna</strong>.
+    </p>
+
+    <p>
+      © 2025 Ravka Pirhavok.
+      Released under the MIT License.
+    </p>
+
+    <p>
+      Hosted by GitHub Pages.
+    </p>
+
+  </footer>
+
+</main>
+
+
+<!-- ===========================================================
+     JAVASCRIPT
+     =========================================================== -->
+
+<script>
+  /*
+   * Wait for Math.js and Plotly.js because both are loaded
+   * with "defer".
+   */
+  window.addEventListener("DOMContentLoaded", initializeJan1);
+
+
+  /* ============================================================
+     GLOBAL AUDIO ELEMENT
+     ============================================================ */
+
+  let audioPlayer;
+
+
+  /*
+   * Only the files that actually exist in your repository.
+   *
+   * Relative paths are used because this project runs on
+   * GitHub Pages under the same repository.
+   */
+  const SOUND_FILES = {
+    x: "sounds/x.mp3",
+    x2: "sounds/x%5E2.mp3",
+    x3: "sounds/x%5E3.mp3",
+    x6: "sounds/x%5E6.mp3",
+
+    sin: "sounds/sin.mp3",
+    cos: "sounds/cos.mp3",
+    tan: "sounds/tan.mp3",
+
+    sqrtX2: "sounds/sqrt%28x%5E2%29.mp3",
+    absX7: "sounds/abs%28x%5E7%29.mp3"
+  };
+
+
+  /*
+   * Initialize the application.
+   */
+  function initializeJan1() {
+
+    audioPlayer =
+      document.getElementById("audioPlayer");
+
+
+    /*
+     * Make sure the libraries loaded.
      */
-    function plotAndPlay() {
-      const input = document.getElementById("funcInput");
-      const expr = input.value.trim().toLowerCase();
+    if (typeof math === "undefined") {
 
-      if (!expr) {
-        alert("Please enter a mathematical function.");
-        return;
-      }
-
-      const x = [];
-      const y = [];
-
-      // Generate 201 points from -10 to 10.
-      for (let i = 0; i <= 200; i++) {
-        const value = -10 + i * 0.1;
-        x.push(value);
-
-        try {
-          const result = math.evaluate(expr, { x: value });
-
-          // Plotly requires real, finite numeric values.
-          if (
-            typeof result === "number" &&
-            Number.isFinite(result)
-          ) {
-            y.push(result);
-          } else {
-            y.push(null);
-          }
-        } catch (error) {
-          y.push(null);
-        }
-      }
-
-      Plotly.newPlot(
-        "graph",
-        [
-          {
-            x: x,
-            y: y,
-            mode: "lines",
-            name: expr,
-            connectgaps: false,
-            line: {
-              width: 2
-            }
-          }
-        ],
-        {
-          title: "y = " + expr,
-          plot_bgcolor: "black",
-          paper_bgcolor: "black",
-          font: {
-            color: "#39ff14"
-          },
-          xaxis: {
-            title: "x",
-            gridcolor: "#1f4d1f",
-            zerolinecolor: "#39ff14"
-          },
-          yaxis: {
-            title: "y",
-            gridcolor: "#1f4d1f",
-            zerolinecolor: "#39ff14"
-          },
-          margin: {
-            l: 60,
-            r: 20,
-            t: 60,
-            b: 60
-          }
-        },
-        {
-          responsive: true
-        }
+      setAudioStatus(
+        "Error: Math.js could not be loaded."
       );
 
-      playSoundFor(expr);
+      return;
     }
 
-    /**
-     * Stop currently playing audio.
-     */
-    function stopSound() {
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        currentAudio = null;
-      }
+
+    if (typeof Plotly === "undefined") {
+
+      setAudioStatus(
+        "Error: Plotly.js could not be loaded."
+      );
+
+      return;
     }
 
-    /**
-     * Select a sound file based on the mathematical expression.
+
+    /*
+     * Button events.
      */
-    function getSoundUrl(func) {
-      const normalized = func.replace(/\s+/g, "").toLowerCase();
+    document
+      .getElementById("plotPlayButton")
+      .addEventListener("click", handlePlotAndPlay);
 
-      // More specific functions first.
-      if (normalized.includes("tan(")) {
-        return "sounds/tan.mp3";
-      }
 
-      if (normalized.includes("cos(")) {
-        return "sounds/cos.mp3";
-      }
+    document
+      .getElementById("stopButton")
+      .addEventListener("click", stopAudio);
 
-      if (normalized.includes("sin(")) {
-        return "sounds/sin.mp3";
-      }
 
-      if (
-        normalized.includes("x^2") ||
-        normalized.includes("x**2")
-      ) {
-        return "sounds/square.mp3";
-      }
-
-      if (
-        normalized.includes("abs(") ||
-        normalized.includes("|x|")
-      ) {
-        return "sounds/abs.mp3";
-      }
-
-      return "sounds/default.mp3";
-    }
-
-    /**
-     * Play the matching audio file.
+    /*
+     * Press Enter in the function box.
      */
-    function playSoundFor(func) {
-      stopSound();
+    document
+      .getElementById("funcInput")
+      .addEventListener("keydown", function(event) {
 
-      const url = getSoundUrl(func);
-      const audio = new Audio(url);
-
-      audio.preload = "auto";
-      currentAudio = audio;
-
-      // Handle missing/broken sound files.
-      audio.addEventListener("error", function () {
-        if (currentAudio === audio) {
-          currentAudio = null;
+        if (event.key === "Enter") {
+          handlePlotAndPlay();
         }
 
-        console.warn("Unable to load audio file:", url);
-        alert(
-          "The graph was created, but the sound file could not be loaded:\n" +
-          url
-        );
       });
 
-      audio.play().catch(function (error) {
-        console.warn("Audio playback was blocked:", error);
 
-        alert(
-          "The browser blocked audio playback. " +
-          "Click 'Plot & Play' again or allow sound for this site."
+    /*
+     * Audio events.
+     */
+    audioPlayer.addEventListener(
+      "playing",
+      function() {
+
+        setAudioStatus(
+          "Audio playing."
         );
-      });
-    }
 
-    /**
-     * Plot the leaf curve:
-     * r(θ) = sin(θ) × cos(θ)
-     */
-    function plotLeaf() {
-      const x = [];
-      const y = [];
-
-      const steps = 628;
-
-      for (let i = 0; i <= steps; i++) {
-        const theta = (i / steps) * Math.PI * 2;
-
-        const r =
-          Math.sin(theta) *
-          Math.cos(theta);
-
-        x.push(r * Math.cos(theta));
-        y.push(r * Math.sin(theta));
       }
+    );
 
-      Plotly.newPlot(
-        "leafGraph",
-        [
-          {
-            x: x,
-            y: y,
-            mode: "lines",
-            name: "Leaf Equation",
-            line: {
-              width: 2
-            }
-          }
-        ],
-        {
-          title: "r(θ) = sin(θ) × cos(θ)",
-          plot_bgcolor: "black",
-          paper_bgcolor: "black",
-          font: {
-            color: "#39ff14"
-          },
-          xaxis: {
-            title: "x",
-            gridcolor: "#1f4d1f",
-            zerolinecolor: "#39ff14",
-            scaleanchor: "y"
-          },
-          yaxis: {
-            title: "y",
-            gridcolor: "#1f4d1f",
-            zerolinecolor: "#39ff14"
-          },
-          margin: {
-            l: 60,
-            r: 20,
-            t: 60,
-            b: 60
-          }
-        },
-        {
-          responsive: true
-        }
-      );
-    }
 
-    /**
-     * Plot a single 3D helix.
-     */
-    function plotDNA() {
-      const x = [];
-      const y = [];
-      const z = [];
+    audioPlayer.addEventListener(
+      "ended",
+      function() {
 
-      const maxT = 20 * Math.PI;
-      const step = 0.1;
+        setAudioStatus(
+          "Audio finished."
+        );
 
-      for (let t = 0; t <= maxT; t += step) {
-        x.push(Math.sin(t));
-        y.push(Math.cos(t));
-        z.push(0.05 * t);
       }
+    );
 
-      Plotly.newPlot(
-        "dnaGraph",
-        [
-          {
-            type: "scatter3d",
-            mode: "lines",
-            x: x,
-            y: y,
-            z: z,
-            line: {
-              width: 4,
-              color: "#39ff14"
-            },
-            name: "DNA Strand"
-          }
-        ],
-        {
-          title: "DNA Helix",
-          scene: {
-            bgcolor: "black",
 
-            xaxis: {
-              title: "x",
-              gridcolor: "#1f4d1f",
-              zerolinecolor: "#39ff14"
-            },
+    audioPlayer.addEventListener(
+      "error",
+      handleAudioError
+    );
 
-            yaxis: {
-              title: "y",
-              gridcolor: "#1f4d1f",
-              zerolinecolor: "#39ff14"
-            },
 
-            zaxis: {
-              title: "z",
-              gridcolor: "#1f4d1f",
-              zerolinecolor: "#39ff14"
-            }
-          },
-
-          paper_bgcolor: "black",
-
-          font: {
-            color: "#39ff14"
-          },
-
-          margin: {
-            l: 0,
-            r: 0,
-            t: 60,
-            b: 0
-          }
-        },
-        {
-          responsive: true
-        }
-      );
-    }
-
-    // Initial plots
+    /*
+     * Draw the initial page.
+     */
+    plotFunction("sin(x)");
     plotLeaf();
     plotDNA();
-  </script>
+
+  }
+
+
+  /* ============================================================
+     STATUS
+     ============================================================ */
+
+  function setAudioStatus(message) {
+
+    const status =
+      document.getElementById("audioStatus");
+
+    status.textContent = message;
+
+  }
+
+
+  /* ============================================================
+     NORMALIZE INPUT
+     ============================================================ */
+
+  function normalizeExpression(expression) {
+
+    return expression
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "")
+      .replace(/×/g, "*")
+      .replace(/\*\*/g, "^");
+
+  }
+
+
+  /* ============================================================
+     AUDIO FILE MATCHING
+     ============================================================ */
+
+  function getSound(expression) {
+
+    const expr =
+      normalizeExpression(expression);
+
+
+    /*
+     * Specific expressions FIRST.
+     */
+    if (expr === "sqrt(x^2)") {
+      return {
+        path: SOUND_FILES.sqrtX2,
+        name: "sqrt(x^2).mp3"
+      };
+    }
+
+
+    if (expr === "abs(x^7)") {
+      return {
+        path: SOUND_FILES.absX7,
+        name: "abs(x^7).mp3"
+      };
+    }
+
+
+    /*
+     * Trigonometric functions.
+     */
+    if (expr === "sin(x)") {
+      return {
+        path: SOUND_FILES.sin,
+        name: "sin.mp3"
+      };
+    }
+
+
+    if (expr === "cos(x)") {
+      return {
+        path: SOUND_FILES.cos,
+        name: "cos.mp3"
+      };
+    }
+
+
+    if (expr === "tan(x)") {
+      return {
+        path: SOUND_FILES.tan,
+        name: "tan.mp3"
+      };
+    }
+
+
+    /*
+     * Polynomial functions.
+     */
+    if (expr === "x") {
+      return {
+        path: SOUND_FILES.x,
+        name: "x.mp3"
+      };
+    }
+
+
+    if (expr === "x^2") {
+      return {
+        path: SOUND_FILES.x2,
+        name: "x^2.mp3"
+      };
+    }
+
+
+    if (expr === "x^3") {
+      return {
+        path: SOUND_FILES.x3,
+        name: "x^3.mp3"
+      };
+    }
+
+
+    if (expr === "x^6") {
+      return {
+        path: SOUND_FILES.x6,
+        name: "x^6.mp3"
+      };
+    }
+
+
+    return null;
+
+  }
+
+
+  /* ============================================================
+     PLOT + AUDIO
+     ============================================================ */
+
+  function handlePlotAndPlay() {
+
+    const input =
+      document.getElementById("funcInput");
+
+    const expression =
+      input.value.trim();
+
+
+    if (!expression) {
+
+      alert(
+        "Please enter a mathematical function."
+      );
+
+      return;
+    }
+
+
+    const normalized =
+      normalizeExpression(expression);
+
+
+    /*
+     * Validate and plot first.
+     */
+    const valid =
+      plotFunction(normalized);
+
+
+    if (!valid) {
+      return;
+    }
+
+
+    /*
+     * IMPORTANT:
+     *
+     * This call happens directly from the button click.
+     * No setTimeout, Promise delay, or asynchronous operation
+     * occurs before audioPlayer.play().
+     */
+    playSound(normalized);
+
+  }
+
+
+  /* ============================================================
+     PLAY SOUND
+     * ============================================================ */
+
+  function playSound(expression) {
+
+    const sound =
+      getSound(expression);
+
+
+    /*
+     * No corresponding MP3.
+     */
+    if (!sound) {
+
+      audioPlayer.pause();
+
+      audioPlayer.removeAttribute("src");
+
+      setAudioStatus(
+        "No audio file is available for: " +
+        expression
+      );
+
+      return;
+    }
+
+
+    /*
+     * Stop current playback.
+     */
+    audioPlayer.pause();
+
+
+    /*
+     * Reset playback position.
+     */
+    try {
+
+      audioPlayer.currentTime = 0;
+
+    } catch (error) {
+      /*
+       * Safe to ignore.
+       */
+    }
+
+
+    /*
+     * Set new source.
+     */
+    audioPlayer.src = sound.path;
+
+
+    /*
+     * IMPORTANT:
+     *
+     * Do NOT call load() here before play().
+     * We want play() to remain directly associated
+     * with the user's button interaction.
+     */
+
+    const promise =
+      audioPlayer.play();
+
+
+    /*
+     * Modern browsers return a Promise.
+     */
+    if (promise && typeof promise.catch === "function") {
+
+      promise.catch(function(error) {
+
+        console.error(
+          "Audio playback failed:",
+          error
+        );
+
+
+        if (error.name === "NotAllowedError") {
+
+          setAudioStatus(
+            "Browser permission is blocking scripted audio. " +
+            "Use the Play control below or allow sound for this GitHub Pages site."
+          );
+
+          return;
+        }
+
+
+        if (error.name === "NotSupportedError") {
+
+          setAudioStatus(
+            "The browser cannot play this audio file: " +
+            sound.name
+          );
+
+          return;
+        }
+
+
+        setAudioStatus(
+          "Audio could not be played: " +
+          sound.name
+        );
+
+      });
+
+    }
+
+
+    setAudioStatus(
+      "Loading: " + sound.name
+    );
+
+  }
+
+
+  /* ============================================================
+     STOP AUDIO
+     ============================================================ */
+
+  function stopAudio() {
+
+    audioPlayer.pause();
+
+
+    try {
+
+      audioPlayer.currentTime = 0;
+
+    } catch (error) {
+      /*
+       * Safe to ignore.
+       */
+    }
+
+
+    setAudioStatus(
+      "Audio stopped."
+    );
+
+  }
+
+
+  /* ============================================================
+     AUDIO ERROR HANDLING
+     ============================================================ */
+
+  function handleAudioError() {
+
+    const error =
+      audioPlayer.error;
+
+
+    if (!error) {
+
+      setAudioStatus(
+        "Unknown audio error."
+      );
+
+      return;
+    }
+
+
+    switch (error.code) {
+
+      case MediaError.MEDIA_ERR_ABORTED:
+
+        setAudioStatus(
+          "Audio loading was aborted."
+        );
+
+        break;
+
+
+      case MediaError.MEDIA_ERR_NETWORK:
+
+        setAudioStatus(
+          "The audio could not be downloaded. " +
+          "Check the GitHub Pages connection."
+        );
+
+        break;
+
+
+      case MediaError.MEDIA_ERR_DECODE:
+
+        setAudioStatus(
+          "The audio file was found but could not be decoded."
+        );
+
+        break;
+
+
+      case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+
+        setAudioStatus(
+          "The audio file was not found or is unsupported."
+        );
+
+        break;
+
+
+      default:
+
+        setAudioStatus(
+          "An unknown audio error occurred."
+        );
+
+    }
+
+  }
+
+
+  /* ============================================================
+     FUNCTION PLOTTER
+     ============================================================ */
+
+  function plotFunction(expression) {
+
+    let mathExpression =
+      normalizeExpression(expression);
+
+
+    /*
+     * Support |x| as a convenience.
+     */
+    if (mathExpression === "|x|") {
+      mathExpression = "abs(x)";
+    }
+
+
+    let compiled;
+
+
+    /*
+     * Compile once instead of parsing the expression
+     * at every x-coordinate.
+     */
+    try {
+
+      compiled =
+        math.compile(mathExpression);
+
+    } catch (error) {
+
+      alert(
+        "Invalid mathematical expression.\n\n" +
+        error.message
+      );
+
+      return false;
+    }
+
+
+    const xValues = [];
+    const yValues = [];
+
+
+    /*
+     * Plot from -10 to +10.
+     */
+    const points = 500;
+
+
+    for (let i = 0; i <= points; i++) {
+
+      const x =
+        -10 + (20 * i / points);
+
+      xValues.push(x);
+
+
+      try {
+
+        const result =
+          compiled.evaluate({
+            x: x
+          });
+
+
+        /*
+         * Only plot finite real numbers.
+         */
+        if (
+          typeof result === "number" &&
+          Number.isFinite(result)
+        ) {
+
+          yValues.push(result);
+
+        } else {
+
+          yValues.push(null);
+
+        }
+
+      } catch (error) {
+
+        yValues.push(null);
+
+      }
+
+    }
+
+
+    /*
+     * Break tan(x) around very large values so Plotly
+     * does not connect opposite sides of an asymptote.
+     */
+    if (mathExpression.includes("tan(")) {
+
+      for (let i = 1; i < yValues.length; i++) {
+
+        const previous =
+          yValues[i - 1];
+
+        const current =
+          yValues[i];
+
+
+        if (
+          previous !== null &&
+          current !== null &&
+          Math.abs(previous) > 20 &&
+          Math.abs(current) > 20 &&
+          Math.sign(previous) !== Math.sign(current)
+        ) {
+
+          yValues[i - 1] = null;
+          yValues[i] = null;
+
+        }
+
+      }
+
+    }
+
+
+    Plotly.newPlot(
+      "graph",
+
+      [
+        {
+          type: "scatter",
+          mode: "lines",
+
+          x: xValues,
+          y: yValues,
+
+          name: "y = " + expression,
+
+          connectgaps: false,
+
+          line: {
+            color: "#39ff14",
+            width: 2
+          }
+        }
+      ],
+
+      {
+        title: "y = " + expression,
+
+        plot_bgcolor: "#000000",
+        paper_bgcolor: "#000000",
+
+        font: {
+          color: "#39ff14",
+          family: "Courier New, monospace"
+        },
+
+        xaxis: {
+          title: "x",
+          gridcolor: "#174d10",
+          zerolinecolor: "#39ff14"
+        },
+
+        yaxis: {
+          title: "y",
+          gridcolor: "#174d10",
+          zerolinecolor: "#39ff14"
+        },
+
+        margin: {
+          l: 65,
+          r: 20,
+          t: 65,
+          b: 60
+        }
+      },
+
+      {
+        responsive: true,
+        displaylogo: false
+      }
+    );
+
+
+    return true;
+
+  }
+
+
+  /* ============================================================
+     LEAF CURVE
+     ============================================================ */
+
+  function plotLeaf() {
+
+    const xValues = [];
+    const yValues = [];
+
+    const steps = 1200;
+
+
+    for (let i = 0; i <= steps; i++) {
+
+      const theta =
+        (2 * Math.PI * i) / steps;
+
+
+      /*
+       * r(θ) = sin(θ) × cos(θ)
+       */
+      const r =
+        Math.sin(theta) *
+        Math.cos(theta);
+
+
+      const x =
+        r * Math.cos(theta);
+
+      const y =
+        r * Math.sin(theta);
+
+
+      xValues.push(x);
+      yValues.push(y);
+
+    }
+
+
+    Plotly.newPlot(
+      "leafGraph",
+
+      [
+        {
+          type: "scatter",
+          mode: "lines",
+
+          x: xValues,
+          y: yValues,
+
+          name: "Leaf-Inspired Curve",
+
+          line: {
+            color: "#39ff14",
+            width: 3
+          }
+        }
+      ],
+
+      {
+        title:
+          "r(θ) = sin(θ) × cos(θ)",
+
+        plot_bgcolor: "#000000",
+        paper_bgcolor: "#000000",
+
+        font: {
+          color: "#39ff14",
+          family: "Courier New, monospace"
+        },
+
+        xaxis: {
+          title: "x",
+          gridcolor: "#174d10",
+          zerolinecolor: "#39ff14",
+          scaleanchor: "y"
+        },
+
+        yaxis: {
+          title: "y",
+          gridcolor: "#174d10",
+          zerolinecolor: "#39ff14"
+        },
+
+        margin: {
+          l: 65,
+          r: 20,
+          t: 65,
+          b: 60
+        }
+      },
+
+      {
+        responsive: true,
+        displaylogo: false
+      }
+    );
+
+  }
+
+
+  /* ============================================================
+     DNA DOUBLE HELIX
+     ============================================================ */
+
+  function plotDNA() {
+
+    const strand1X = [];
+    const strand1Y = [];
+    const strand1Z = [];
+
+    const strand2X = [];
+    const strand2Y = [];
+    const strand2Z = [];
+
+    const connectorX = [];
+    const connectorY = [];
+    const connectorZ = [];
+
+
+    const maxT =
+      18 * Math.PI;
+
+    const step =
+      0.035;
+
+    const radius =
+      1;
+
+    const heightScale =
+      0.055;
+
+
+    /* ----------------------------------------------------------
+       TWO HELICAL STRANDS
+       ---------------------------------------------------------- */
+
+    for (
+      let t = 0;
+      t <= maxT;
+      t += step
+    ) {
+
+      const z =
+        heightScale * t;
+
+
+      /*
+       * Strand 1
+       */
+      strand1X.push(
+        radius * Math.sin(t)
+      );
+
+      strand1Y.push(
+        radius * Math.cos(t)
+      );
+
+      strand1Z.push(z);
+
+
+      /*
+       * Strand 2 is π radians out of phase.
+       */
+      strand2X.push(
+        radius * Math.sin(t + Math.PI)
+      );
+
+      strand2Y.push(
+        radius * Math.cos(t + Math.PI)
+      );
+
+      strand2Z.push(z);
+
+    }
+
+
+    /* ----------------------------------------------------------
+       BASE-PAIR CONNECTORS
+       ---------------------------------------------------------- */
+
+    const basePairs =
+      75;
+
+
+    for (
+      let i = 0;
+      i <= basePairs;
+      i++
+    ) {
+
+      const t =
+        (maxT * i) / basePairs;
+
+      const z =
+        heightScale * t;
+
+
+      const x1 =
+        radius * Math.sin(t);
+
+      const y1 =
+        radius * Math.cos(t);
+
+
+      const x2 =
+        radius * Math.sin(t + Math.PI);
+
+      const y2 =
+        radius * Math.cos(t + Math.PI);
+
+
+      /*
+       * null separates each individual connector.
+       */
+      connectorX.push(
+        x1,
+        x2,
+        null
+      );
+
+      connectorY.push(
+        y1,
+        y2,
+        null
+      );
+
+      connectorZ.push(
+        z,
+        z,
+        null
+      );
+
+    }
+
+
+    /* ----------------------------------------------------------
+       PLOT
+       ---------------------------------------------------------- */
+
+    Plotly.newPlot(
+      "dnaGraph",
+
+      [
+        {
+          type: "scatter3d",
+          mode: "lines",
+
+          x: strand1X,
+          y: strand1Y,
+          z: strand1Z,
+
+          name: "Strand 1",
+
+          line: {
+            color: "#39ff14",
+            width: 6
+          }
+        },
+
+        {
+          type: "scatter3d",
+          mode: "lines",
+
+          x: strand2X,
+          y: strand2Y,
+          z: strand2Z,
+
+          name: "Strand 2",
+
+          line: {
+            color: "#39ff14",
+            width: 6
+          }
+        },
+
+        {
+          type: "scatter3d",
+          mode: "lines",
+
+          x: connectorX,
+          y: connectorY,
+          z: connectorZ,
+
+          name: "Base Pairs",
+
+          line: {
+            color: "#7dff68",
+            width: 3
+          }
+        }
+      ],
+
+      {
+        title:
+          "Mathematical DNA Double Helix",
+
+        paper_bgcolor: "#000000",
+
+        font: {
+          color: "#39ff14",
+          family: "Courier New, monospace"
+        },
+
+        scene: {
+
+          bgcolor: "#000000",
+
+          xaxis: {
+            title: "x",
+            gridcolor: "#174d10",
+            zerolinecolor: "#39ff14"
+          },
+
+          yaxis: {
+            title: "y",
+            gridcolor: "#174d10",
+            zerolinecolor: "#39ff14"
+          },
+
+          zaxis: {
+            title: "z",
+            gridcolor: "#174d10",
+            zerolinecolor: "#39ff14"
+          },
+
+          aspectmode: "manual",
+
+          aspectratio: {
+            x: 1,
+            y: 1,
+            z: 2
+          }
+        },
+
+        margin: {
+          l: 0,
+          r: 0,
+          t: 65,
+          b: 0
+        },
+
+        showlegend: true,
+
+        legend: {
+          font: {
+            color: "#39ff14"
+          }
+        }
+      },
+
+      {
+        responsive: true,
+        displaylogo: false
+      }
+    );
+
+  }
+
+</script>
 
 </body>
 </html>
