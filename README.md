@@ -1,4 +1,4 @@
-# Jan-1: Hear The Math/GPT-4o Experimental Project.
+# Jan-1: Hear The Math/Experimental Project.
 Idea and management by Ravka Pirhavook - Coding done by the free version of (ChatGPT/GPT-4o) May, 2025 - & the new early 2026 version: GPT-5.6 Luna.
 
 Hosting is imported to the free version of the Vercel cloud platform, you can check the web here:
