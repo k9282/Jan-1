@@ -1,5 +1,8 @@
 # Jan-1: Hear The Math/GPT-4o Experimental Project.
-Idea and management by Ravka Pirhavook - Coding done by (ChatGPT/GPT-4o) & (ChatGPT/GPT-5.6 Luna).
+Idea and management by Ravka Pirhavook - Coding done by the free version of (ChatGPT/GPT-4o) May, 2025 - & the new early 2026 version: GPT-5.6 Luna.
+
+Hosting is imported to the free version of Cloudflare Pages service, you can check the web here:
+https://2f4f049a.jan-1-math.pages.dev/
 
 
 ## Purpose
