@@ -27,4 +27,4 @@ Read: https://github.com/ravka-io/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE.
 - **Researchers** exploring educational tools for STEM instruction.
 - **Anyone** interested in interactive, free, open-source educational software.
 
-© 2025 Ravka Piroshk. Hosted by GitHub. All rights reserved.
+© 2025 Ravka Pirhavok. Hosted by Vercel. All rights reserved.
