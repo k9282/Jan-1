@@ -1,4 +1,4 @@
-# Jan-1: Hear the Math — Experimental Project
+# Jan-1: Hear the Math [Experimental Project]
 
 **Jan-1** is an interdisciplinary educational project created and managed by **Vulkana Hengewan**.
 
