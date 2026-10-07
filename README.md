@@ -10,8 +10,8 @@ The project's **concept, idea, direction, organization, and management were deve
 
 AI tools were used to assist with implementation and coding:
 
-- **ChatGPT / GPT-4o** — used during development in May 2025.
-- **GPT-5.6 Luna** — used during later development in early 2026.
+- **ChatGPT / GPT-4o** | during development in May 2025.
+- **GPT-5.6 Luna** | during later development in early 2026.
 
 The use of AI-assisted coding does not change the project's conceptual authorship of the concept originality, and the project management.
 
@@ -35,10 +35,10 @@ The goal is to provide a free and accessible tool for students, teachers, resear
 
 - **HTML5 & CSS3**
 - **JavaScript**
-- **Math.js** — evaluation of user-input mathematical expressions
-- **Plotly.js** — interactive mathematical graphs
-- **HTML Audio API** — audio playback
-- **Vercel** — web hosting
+- **Math.js** | evaluation of user-input mathematical expressions
+- **Plotly.js** | interactive mathematical graphs
+- **HTML Audio API** | audio playback
+- **Vercel** | web hosting
 
 ## Live Demo
 
@@ -60,10 +60,10 @@ https://github.com/vulkana-cmyk/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE
 
 Jan-1 is intended for:
 
-- **Students** — exploring mathematical functions through visual and auditory representations.
-- **Teachers** — demonstrating connections between mathematics, biology, and sound.
-- **Researchers** — exploring possibilities for interactive STEM education.
-- **Anyone interested** — experimenting with mathematical visualization and educational software.
+- **Students** | exploring mathematical functions through visual and auditory representations.
+- **Teachers** | demonstrating connections between mathematics, biology, and sound.
+- **Researchers** | exploring possibilities for interactive STEM education.
+- **Anyone interested** | experimenting with mathematical visualization and educational software.
 
 ## Copyright
 
