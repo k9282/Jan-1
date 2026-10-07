@@ -18,7 +18,7 @@ Jan-1 is an educational web application designed to demonstrate the relationship
 - **GitHub Pages** for hosting.  
 
 ## License:
-Read: https://github.com/ravka-io/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE.
+Read: https://github.com/vulkana-cmyk/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE.
 
 ## Who Can Use
 
@@ -27,4 +27,4 @@ Read: https://github.com/ravka-io/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE.
 - **Researchers** exploring educational tools for STEM instruction.
 - **Anyone** interested in interactive, free, open-source educational software.
 
-© 2025 Ravka Pirhavok. Hosted by Vercel. All rights reserved.
+© 2025 Vulkana Hengewan. Hosted by Vercel. All rights reserved.
