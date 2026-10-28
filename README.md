@@ -1,6 +1,6 @@
 # Jan-1: Hear the Math [Experimental Project]
 
-**Jan-1** is an interdisciplinary educational project created and managed by k9282.
+**Jan-1** is an interdisciplinary educational project created and managed by Ale.
 
 The original concept, idea, project direction, organization, and management of this project were developed by Vulkana. The project was developed independently and was not copied or imported from another person's repository.
 
@@ -48,13 +48,13 @@ https://jan-1.vercel.app/
 
 You can also view the main `index.html` file in the repository:
 
-https://github.com/vulkana-cmyk/Jan-1/blob/main/index.html
+https://github.com/k9282/Jan-1/blob/main/index.html
 
 ## License
 
 Please see the **JAN-1 FREE USE LICENSE**:
 
-https://github.com/vulkana-cmyk/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE
+https://github.com/k9282/Jan-1/blob/main/JAN-1%20FREE%20USE%20LICENSE
 
 ## Who Can Use Jan-1?
 
@@ -67,6 +67,6 @@ Jan-1 is intended for:
 
 ## Copyright
 
-© 2025 k9282.
+© 2025 Ale.
 
 The project is hosted on Vercel. Please refer to the project's license for the terms governing its use.
