@@ -2,7 +2,7 @@
 
 **Jan-1** is an interdisciplinary educational project created and managed by Ale.
 
-The original concept, idea, project direction, organization, and management of this project were developed by Vulkana. The project was developed independently and was not copied or imported from another person's repository.
+The original concept, idea, project direction, organization, and management of this project were developed by Ale. The project was developed independently and was not copied or imported from another person's repository.
 
 ## Authorship and Development
 
