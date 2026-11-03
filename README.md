@@ -1,8 +1,8 @@
 # Jan-1: Hear the Math [Experimental Project]
 
-**Jan-1** is an interdisciplinary educational project created and managed by Ale.
+**Jan-1** is an interdisciplinary educational project created and managed by Aeldari.
 
-The original concept, idea, project direction, organization, and management of this project were developed by Ale. The project was developed independently and was not copied or imported from another person's repository.
+The original concept, idea, project direction, organization, and management of this project were developed by Aeldari. The project was developed independently and was not copied or imported from another person's repository.
 
 ## Authorship and Development
 
@@ -67,6 +67,6 @@ Jan-1 is intended for:
 
 ## Copyright
 
-© 2025 Ale.
+© 2025 Aeldari Nasim.
 
 The project is hosted on Vercel. Please refer to the project's license for the terms governing its use.
