@@ -6,14 +6,12 @@ The original concept, idea, project direction, organization, and management of t
 
 ## Authorship and Development
 
-The project's **concept, idea, direction, organization, and management were developed by me**.
+The project's *concept, idea, direction, organization, and management were developed by Aeldari*.
 
 AI tools were used to assist with implementation and coding:
 
-- **ChatGPT / GPT-4o** | during development in May 2025.
-- **GPT-5.6 Luna** | during later development in early 2026.
-
-The use of AI-assisted coding does not change the project's conceptual authorship of the concept originality, and the project management.
+- **ChatGPT / GPT-4o** | during first development in May 2025 - version 1.0.
+- **GPT-5.6 Luna** | during later development in early 2026 - version 2.0.
 
 ## Purpose
 
